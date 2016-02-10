@@ -25,7 +25,7 @@ class IndexController {
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     @ResponseBody
-    public RequestDTO addRandomStuff() {
+    public long addRandomStuff() {
         RequestDTO newReq = new RequestDTO();
         newReq.setUrl("http://Valeur-Ajoutée.com");
         newReq.setTitle("Post-its");

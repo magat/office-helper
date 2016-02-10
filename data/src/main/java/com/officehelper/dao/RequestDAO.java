@@ -23,10 +23,9 @@ public class RequestDAO {
         return hibernateSession.get(Request.class, id);
     }
 
-    public Request addRequest(Request req) {
+    public long addRequest(Request req) {
         Session hibernateSession = sessionFactory.getCurrentSession();
-        hibernateSession.save(req);
-        return req;
+        return (long) hibernateSession.save(req);
     }
 
     public void deleteRequest(long id) {

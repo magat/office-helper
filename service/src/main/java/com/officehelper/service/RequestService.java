@@ -32,8 +32,8 @@ public class RequestService {
     }
 
     @Transactional
-    public RequestDTO addRequest(RequestDTO req) {
-        return new RequestDTO(requestDAO.addRequest(req.toRequest()));
+    public long addRequest(RequestDTO req) {
+        return requestDAO.addRequest(req.toRequest());
     }
 
     @Transactional

@@ -1,4 +1,4 @@
-package com.officehelper.web.init;
+package com.officehelper.init;
 
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
