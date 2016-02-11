@@ -1,6 +1,6 @@
 package com.officehelper.dao;
 
-import com.officehelper.config.DataConfigTest;
+import com.officehelper.config.DataTestConfig;
 import com.officehelper.entity.Request;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -19,7 +19,7 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.TestCase.*;
 
 @RunWith(SpringJUnit4ClassRunner.class) //Allows support of annotations inside jUnits test Classes
-@ContextConfiguration(classes = DataConfigTest.class) //Custom context for testing
+@ContextConfiguration(classes = DataTestConfig.class) //Custom context for testing
 public class RequestDAOTest {
 
     @Inject

@@ -17,7 +17,7 @@ import java.io.IOException;
 @Configuration
 @ComponentScan(basePackages = "com.officehelper.dao")
 @PropertySource("classpath:/db.test.properties")
-public class DataConfigTest {
+public class DataTestConfig {
 
     @Value("${db.test.username}")
     private String dbusername;
