@@ -117,4 +117,40 @@ public class RequestDTO {
                 ", author='" + author + '\'' +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        RequestDTO that = (RequestDTO) o;
+
+        if (id != that.id) {
+            return false;
+        }
+        if (!dateCreated.equals(that.dateCreated)) {
+            return false;
+        }
+        if (title != null ? !title.equals(that.title) : that.title != null) {
+            return false;
+        }
+        if (url != null ? !url.equals(that.url) : that.url != null) {
+            return false;
+        }
+        if (status != null ? !status.equals(that.status) : that.status != null) {
+            return false;
+        }
+        if (comments != null ? !comments.equals(that.comments) : that.comments != null) {
+            return false;
+        }
+        if (dateOrdered != null ? !dateOrdered.equals(that.dateOrdered) : that.dateOrdered != null) {
+            return false;
+        }
+        return author.equals(that.author);
+
+    }
 }

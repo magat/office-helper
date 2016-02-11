@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class RequestService {
@@ -19,11 +19,7 @@ public class RequestService {
     @Transactional
     public List<RequestDTO> getRequestList() {
         List<Request> rList = requestDAO.getRequestList();
-        List<RequestDTO> rDTOList = new ArrayList<>();
-        for (Request req : rList) {
-            rDTOList.add(new RequestDTO(req));
-        }
-        return rDTOList;
+        return rList.stream().map(RequestDTO::new).collect(Collectors.toList());
     }
 
     @Transactional
@@ -37,7 +33,7 @@ public class RequestService {
     }
 
     @Transactional
-    public void deleteRequest(long id) { //Garder une primitive (null n'a pas de sens)
+    public void deleteRequest(long id) {
         requestDAO.deleteRequest(id);
     }
 }
