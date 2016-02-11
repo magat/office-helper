@@ -14,15 +14,6 @@ import java.io.IOException;
 @ComponentScan(basePackages = "com.officehelper.service")
 @EnableTransactionManagement
 public class ServiceConfig {
-    /*
-    @Bean(name = "viewResolver")
-    public InternalResourceViewResolver getViewResolver() {
-        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-        viewResolver.setPrefix("/WEB-INF/views/");
-        viewResolver.setSuffix(".jsp");
-        return viewResolver;
-    }
-    */
 
     @Bean(name = "transactionManager") //Enables @Transactional
     public HibernateTransactionManager txName(DataSource dataSource, SessionFactory sessionFactory) throws IOException {
