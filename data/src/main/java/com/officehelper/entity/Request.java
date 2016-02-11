@@ -8,7 +8,7 @@ import java.util.Date;
 public class Request {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "request_id_seq")
-    @SequenceGenerator(name = "request_id_seq", sequenceName = "request_id_seq")
+    @SequenceGenerator(name = "request_id_seq", sequenceName = "request_id_seq", allocationSize = 1)
     private long id;
 
     @Column(name = "date_created")
