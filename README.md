@@ -12,10 +12,10 @@ db.driver=org.postgresql.Driver
 
 - Add db.test.properties in 'data/src/test/resources/db.test.properties' with the same structure :
 ```
-db.username=User
-db.pswd=pwd
-db.url=jdbc:postgresql://localhost:5432/<YOUR_TEST_DB_NAME>
-db.driver=org.postgresql.Driver
+db.test.username=User
+db.test.pswd=pwd
+db.test.url=jdbc:postgresql://localhost:5432/<YOUR_TEST_DB_NAME>
+db.test.driver=org.postgresql.Driver
 ```
 
 - The DB should match the following structure :
