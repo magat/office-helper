@@ -33,7 +33,7 @@ public class RequestService {
     }
 
     @Transactional
-    public void deleteRequest(long id) {
-        requestDAO.deleteRequest(id);
+    public boolean deleteRequest(long id) {
+        return requestDAO.deleteRequest(id);
     }
 }

@@ -3,6 +3,7 @@ package com.officehelper.dto;
 import com.officehelper.entity.Request;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class RequestDTO {
 
@@ -21,14 +22,16 @@ public class RequestDTO {
     }
 
     public RequestDTO(Request req) {
-        this.setAuthor(req.getAuthor());
-        this.setComments(req.getComments());
-        this.setDateCreated(req.getDateCreated());
-        this.setDateOrdered(req.getDateOrdered());
-        this.setStatus(req.getStatus());
-        this.setTitle(req.getTitle());
-        this.setUrl(req.getUrl());
-        this.id = req.getId();
+        if(req != null) {
+            this.setAuthor(req.getAuthor());
+            this.setComments(req.getComments());
+            this.setDateCreated(req.getDateCreated());
+            this.setDateOrdered(req.getDateOrdered());
+            this.setStatus(req.getStatus());
+            this.setTitle(req.getTitle());
+            this.setUrl(req.getUrl());
+            this.id = req.getId();
+        }
     }
 
     public Request toRequest() {
@@ -126,31 +129,19 @@ public class RequestDTO {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-
         RequestDTO that = (RequestDTO) o;
+        return id == that.id &&
+                Objects.equals(dateCreated, that.dateCreated) &&
+                Objects.equals(title, that.title) &&
+                Objects.equals(url, that.url) &&
+                Objects.equals(status, that.status) &&
+                Objects.equals(comments, that.comments) &&
+                Objects.equals(dateOrdered, that.dateOrdered) &&
+                Objects.equals(author, that.author);
+    }
 
-        if (id != that.id) {
-            return false;
-        }
-        if (!dateCreated.equals(that.dateCreated)) {
-            return false;
-        }
-        if (title != null ? !title.equals(that.title) : that.title != null) {
-            return false;
-        }
-        if (url != null ? !url.equals(that.url) : that.url != null) {
-            return false;
-        }
-        if (status != null ? !status.equals(that.status) : that.status != null) {
-            return false;
-        }
-        if (comments != null ? !comments.equals(that.comments) : that.comments != null) {
-            return false;
-        }
-        if (dateOrdered != null ? !dateOrdered.equals(that.dateOrdered) : that.dateOrdered != null) {
-            return false;
-        }
-        return author.equals(that.author);
-
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, dateCreated, title, url, status, comments, dateOrdered, author);
     }
 }

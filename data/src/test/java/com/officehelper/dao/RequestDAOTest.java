@@ -15,7 +15,6 @@ import javax.inject.Inject;
 import java.util.Date;
 import java.util.List;
 
-import static junit.framework.Assert.assertEquals;
 import static junit.framework.TestCase.*;
 
 @RunWith(SpringJUnit4ClassRunner.class) //Allows support of annotations inside jUnits test Classes
@@ -53,42 +52,52 @@ public class RequestDAOTest {
 
     @Test
     @Transactional
-    public void testGetRequest() {
+    public void testGetRequest_when_no_request() {
         //Id doesn't exist
-        Request gReq = requestDAO.getRequest(2);
-        assertNull(gReq);
+        assertNull(requestDAO.getRequest(2));
+    }
 
+    @Test
+    @Transactional
+    public void testGetRequest_when_one_request() {
         //Id exists
         long id = (long) session.save(testingRequest);
-        gReq = requestDAO.getRequest(id);
+        Request gReq = requestDAO.getRequest(id);
         assertNotNull(gReq);
         assertEquals(id, gReq.getId());
     }
 
     @Test
     @Transactional
-    public void testGetRequestList() {
+    public void testGetRequestList_when_empty() {
         //Empty table
         List<Request> requestList = requestDAO.getRequestList();
         assertEquals(requestList.size(), 0);
+    }
 
+    @Test
+    @Transactional
+    public void testGetRequestList_when_not_empty() {
         //Table with some entries
         session.save(testingRequest);
-        requestList = requestDAO.getRequestList();
+        List<Request> requestList = requestDAO.getRequestList();
         assertEquals(1, requestList.size());
     }
 
     @Test
     @Transactional
-    public void testDeleteRequest() {
+    public void testDeleteRequest_when_undefined() {
         //Remove undefined entity
-        requestDAO.deleteRequest(2);
+        assertFalse(requestDAO.deleteRequest(2));
+    }
 
+    @Test
+    @Transactional
+    public void testDeleteRequest_when_defined() {
         //Remove defined entity
         long id = (long) session.save(testingRequest);
         assertNotNull(session.get(Request.class, id));
-        session.evict(testingRequest);
-        requestDAO.deleteRequest(id);
+        assertTrue(requestDAO.deleteRequest(id));
         assertNull(session.get(Request.class, id));
     }
 

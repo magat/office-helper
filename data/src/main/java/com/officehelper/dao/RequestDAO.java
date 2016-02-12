@@ -28,11 +28,15 @@ public class RequestDAO {
         return (long) hibernateSession.save(req);
     }
 
-    public void deleteRequest(long id) {
+    //Returns false when the entity couldn't be deleted
+    public boolean deleteRequest(long id) {
         Session hibernateSession = sessionFactory.getCurrentSession();
-        Request rToDelete = new Request();
-        rToDelete.setId(id);
-        hibernateSession.delete(rToDelete);
+        Request reqToDelete = getRequest(id);
+        if(reqToDelete != null) {
+            hibernateSession.delete(getRequest(id));
+            return true;
+        }
+        return false;
     }
 
 }

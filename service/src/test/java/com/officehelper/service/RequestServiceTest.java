@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static junit.framework.TestCase.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
@@ -39,7 +39,7 @@ public class RequestServiceTest {
     }
 
     @Test
-    public void testGetRequest() { //Testing if we get a request when we ask for it
+    public void testGetRequest_when_entry_found() { //Testing if we get a request when we ask for it
         /* If there is a match in the database */
         Request received = new Request();
         received.setDateCreated(new Date());
@@ -49,7 +49,25 @@ public class RequestServiceTest {
     }
 
     @Test
-    public void testGetRequestList() {
+    public void testGetRequest_when_no_entry_found() {
+        when(mockedRequestDAO.getRequest(10L)).thenReturn(null);
+        assertEquals(requestService.getRequest(10L), new RequestDTO(new Request()));
+    }
+
+    @Test
+    public void testDeleteRequest_when_id_incorrect() {
+        when(mockedRequestDAO.deleteRequest(10L)).thenReturn(false);
+        assertFalse(requestService.deleteRequest(10L));
+    }
+
+    @Test
+    public void testDeleteRequest_when_id_correct() {
+        when(mockedRequestDAO.deleteRequest(10L)).thenReturn(true);
+        assertTrue(requestService.deleteRequest(10L));
+    }
+
+    @Test
+    public void testGetRequestList_when_entries_found() {
         /* Testing when the database contains entries */
         //Request 1
         Request receivedRequest = new Request();
@@ -72,7 +90,10 @@ public class RequestServiceTest {
 
         when(mockedRequestDAO.getRequestList()).thenReturn(receivedRequestList);
         assertEquals(requestService.getRequestList(), sentRequestListDTO);
+    }
 
+    @Test
+    public void testGetRequestList_when_no_entries_found() {
         /*Testing when the database is empty*/
         when(mockedRequestDAO.getRequestList()).thenReturn(new ArrayList<Request>());
         assertEquals(requestService.getRequestList(), new ArrayList<RequestDTO>());
