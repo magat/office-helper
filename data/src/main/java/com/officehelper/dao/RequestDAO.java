@@ -15,7 +15,7 @@ public class RequestDAO {
 
     public List<Request> getRequestList() {
         Session hibernateSession = sessionFactory.getCurrentSession();
-        return hibernateSession.createCriteria(Request.class).list();
+        return hibernateSession.createQuery("from Request").list();
     }
 
     public Request getRequest(long id) {
@@ -23,17 +23,20 @@ public class RequestDAO {
         return hibernateSession.get(Request.class, id);
     }
 
-    public Request addRequest(Request req) {
+    public long addRequest(Request req) {
         Session hibernateSession = sessionFactory.getCurrentSession();
-        hibernateSession.save(req);
-        return req;
+        return (long) hibernateSession.save(req);
     }
 
-    public void deleteRequest(long id) {
+    //Returns false when the entity couldn't be deleted
+    public boolean deleteRequest(long id) {
         Session hibernateSession = sessionFactory.getCurrentSession();
-        Request rToDelete = new Request();
-        rToDelete.setId(id);
-        hibernateSession.delete(rToDelete);
+        Request reqToDelete = getRequest(id);
+        if(reqToDelete != null) {
+            hibernateSession.delete(getRequest(id));
+            return true;
+        }
+        return false;
     }
 
 }

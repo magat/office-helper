@@ -3,6 +3,7 @@ package com.officehelper.dto;
 import com.officehelper.entity.Request;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class RequestDTO {
 
@@ -21,14 +22,16 @@ public class RequestDTO {
     }
 
     public RequestDTO(Request req) {
-        this.setAuthor(req.getAuthor());
-        this.setComments(req.getComments());
-        this.setDateCreated(req.getDateCreated());
-        this.setDateOrdered(req.getDateOrdered());
-        this.setStatus(req.getStatus());
-        this.setTitle(req.getTitle());
-        this.setUrl(req.getUrl());
-        this.id = req.getId();
+        if(req != null) {
+            this.setAuthor(req.getAuthor());
+            this.setComments(req.getComments());
+            this.setDateCreated(req.getDateCreated());
+            this.setDateOrdered(req.getDateOrdered());
+            this.setStatus(req.getStatus());
+            this.setTitle(req.getTitle());
+            this.setUrl(req.getUrl());
+            this.id = req.getId();
+        }
     }
 
     public Request toRequest() {
@@ -116,5 +119,29 @@ public class RequestDTO {
                 ", dateOrdered=" + dateOrdered +
                 ", author='" + author + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        RequestDTO that = (RequestDTO) o;
+        return id == that.id &&
+                Objects.equals(dateCreated, that.dateCreated) &&
+                Objects.equals(title, that.title) &&
+                Objects.equals(url, that.url) &&
+                Objects.equals(status, that.status) &&
+                Objects.equals(comments, that.comments) &&
+                Objects.equals(dateOrdered, that.dateOrdered) &&
+                Objects.equals(author, that.author);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, dateCreated, title, url, status, comments, dateOrdered, author);
     }
 }
