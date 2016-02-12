@@ -15,7 +15,7 @@ public class RequestDAO {
 
     public List<Request> getRequestList() {
         Session hibernateSession = sessionFactory.getCurrentSession();
-        return hibernateSession.createCriteria(Request.class).list();
+        return hibernateSession.createQuery("from Request").list();
     }
 
     public Request getRequest(long id) {
