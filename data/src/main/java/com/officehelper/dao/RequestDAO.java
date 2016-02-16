@@ -16,19 +16,12 @@ public class RequestDAO {
 
     public List<Request> getRequestList() {
         Session hibernateSession = sessionFactory.getCurrentSession();
-        //List<Request> results = hibernateSession.createQuery("from Request r left join fetch r.author a left join fetch a.requests").list();
-        return hibernateSession.createQuery("from Request r left join fetch r.author").list();
+        return hibernateSession.createQuery("from Request").list();
     }
 
     public Request getRequest(long id) {
         Session hibernateSession = sessionFactory.getCurrentSession();
-        Request result = hibernateSession.get(Request.class, id);
-        if(result != null)
-            Hibernate.initialize(result.getAuthor());
-        return result;
-        //Query query =  hibernateSession.createQuery("from Request r left join fetch r.author where r.id=:id");
-        //query.setParameter("id",id);
-        //return (Request) query.list().get(0);
+        return hibernateSession.get(Request.class, id);
     }
 
     public long addRequest(Request req) {

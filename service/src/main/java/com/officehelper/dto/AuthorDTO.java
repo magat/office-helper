@@ -12,7 +12,7 @@ public class AuthorDTO {
     private String firstName;
     private String lastName;
     private String email;
-    private List<Request> requests;
+    private List<Request> requestList;
 
     public AuthorDTO() {
     }
@@ -62,12 +62,8 @@ public class AuthorDTO {
         this.email = email;
     }
 
-    public List<Request> getRequests() {
-        return requests;
-    }
-
-    public void setRequests(List<Request> requests) {
-        this.requests = requests;
+    public List<Request> getRequestList() {
+        return requestList;
     }
 
     @Override
@@ -83,11 +79,11 @@ public class AuthorDTO {
                 Objects.equals(firstName, authorDTO.firstName) &&
                 Objects.equals(lastName, authorDTO.lastName) &&
                 Objects.equals(email, authorDTO.email) &&
-                Objects.equals(requests, authorDTO.requests);
+                Objects.equals(requestList, authorDTO.requestList);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, email, requests);
+        return Objects.hash(id, firstName, lastName, email, requestList);
     }
 }

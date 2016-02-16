@@ -2,6 +2,7 @@ package com.officehelper.web.controller;
 
 import com.officehelper.dto.AuthorDTO;
 import com.officehelper.dto.RequestDTO;
+import com.officehelper.service.AuthorService;
 import com.officehelper.service.RequestService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +18,9 @@ class IndexController {
 
     @Inject
     RequestService reqService;
+
+    @Inject
+    AuthorService authorService;
 
     @SuppressWarnings("SameReturnValue")
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -48,5 +52,12 @@ class IndexController {
     @ResponseBody
     public RequestDTO getStuff(@PathVariable long id) {
         return reqService.getRequest(id);
+    }
+
+    //TODO : To remove, temporary testing Route
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    @ResponseBody
+    public List<RequestDTO> testingFunction() {
+        return authorService.getRequestListFromAuthor(1);
     }
 }

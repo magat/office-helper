@@ -1,6 +1,5 @@
 package com.officehelper.service;
 
-import com.officehelper.dao.AuthorDAO;
 import com.officehelper.dao.RequestDAO;
 import com.officehelper.dto.RequestDTO;
 import com.officehelper.entity.Author;
@@ -9,8 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class RequestService {
@@ -18,25 +17,19 @@ public class RequestService {
     @Inject
     private RequestDAO requestDAO;
 
-    //TODO : TO BE REMOVED
-    @Inject
-    private AuthorDAO authorDAO;
-
     @Transactional
     public List<RequestDTO> getRequestList() {
         List<Request> rList = requestDAO.getRequestList();
-        List<RequestDTO> dtoList = new ArrayList<>();
-        for(Request r : rList) {
-            r.getAuthor().setRequests(null); //Prevents infinite Author <-> Request Loop
-            dtoList.add(new RequestDTO(r));
-        }
-        //rList.stream().map(RequestDTO::new).collect(Collectors.toList());
-        return dtoList;
+        return rList.stream().map(RequestDTO::new).collect(Collectors.toList());
     }
 
     @Transactional
     public RequestDTO getRequest(long id) {
-        return new RequestDTO(requestDAO.getRequest(id));
+        Request req = requestDAO.getRequest(id);
+        if (req != null) {
+            req.getAuthor();
+        }
+        return new RequestDTO(req);
     }
 
     @Transactional

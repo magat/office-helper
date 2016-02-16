@@ -1,7 +1,6 @@
 package com.officehelper.dao;
 
 import com.officehelper.entity.Author;
-import com.officehelper.entity.Request;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -17,20 +16,17 @@ public class AuthorDAO {
 
     public List<Author> getAuthorList() {
         Session hibernateSession = sessionFactory.getCurrentSession();
-        return hibernateSession.createQuery("from Author a left join fetch a.requests").list();
+        return hibernateSession.createQuery("from Author").list();
     }
 
     public Author getAuthor(long id) {
         Session hibernateSession = sessionFactory.getCurrentSession();
-        Author result = hibernateSession.get(Author.class, id);
-        if(result != null)
-            Hibernate.initialize(result.getRequests());
-        return result;
+        return hibernateSession.get(Author.class, id);
     }
 
-    public long addAuthor(Author req) {
+    public long addAuthor(Author author) {
         Session hibernateSession = sessionFactory.getCurrentSession();
-        return (long) hibernateSession.save(req);
+        return (long) hibernateSession.save(author);
     }
 
     //Returns false when the entity couldn't be deleted

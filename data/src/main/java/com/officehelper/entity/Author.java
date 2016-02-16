@@ -1,7 +1,6 @@
 package com.officehelper.entity;
 
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -23,7 +22,7 @@ public class Author {
     private String email;
 
     @OneToMany(mappedBy="author")
-    private List<Request> requests;
+    private List<Request> requestList;
 
     public Author() {
 
@@ -61,9 +60,11 @@ public class Author {
         this.email = email;
     }
 
-    public Collection<Request> getRequests() {
-        return requests;
+    public List<Request> getRequestList() {
+        return requestList;
     }
+
+    public void setRequestList(List<Request> reqList) {this.requestList = reqList;}
 
     @Override
     public boolean equals(Object o) {
@@ -78,11 +79,11 @@ public class Author {
                 Objects.equals(firstName, author.firstName) &&
                 Objects.equals(lastName, author.lastName) &&
                 Objects.equals(email, author.email) &&
-                Objects.equals(requests, author.requests);
+                Objects.equals(requestList, author.requestList);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, email, requests);
+        return Objects.hash(id, firstName, lastName, email, requestList);
     }
 }

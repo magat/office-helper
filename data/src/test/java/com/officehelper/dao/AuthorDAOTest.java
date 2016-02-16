@@ -20,10 +20,9 @@ import static junit.framework.TestCase.*;
 
 @RunWith(SpringJUnit4ClassRunner.class) //Allows support of annotations inside jUnits test Classes
 @ContextConfiguration(classes = DataTestConfig.class) //Custom context for testing
-public class RequestDAOTest {
-
+public class AuthorDAOTest {
     @Inject
-    private RequestDAO requestDAO;
+    private AuthorDAO authorDAO;
     @Inject
     private SessionFactory sessionFactory;
     private Session session;
@@ -50,65 +49,63 @@ public class RequestDAOTest {
 
     @Test
     @Transactional
-    public void testAddRequest() {
-        long testRequestId = requestDAO.addRequest(testingRequest);
-        assertEquals(testRequestId, testingRequest.getId());
-        assertNotNull(testRequestId);
-        assertTrue(testRequestId > 0);
-        assertNotNull(session.get(Request.class, testRequestId));
+    public void testAddAuthor() {
+        long testAuthorId = authorDAO.addAuthor(testingUser);
+        assertEquals(testAuthorId, testingUser.getId());
+        assertNotNull(testAuthorId);
+        assertTrue(testAuthorId > 0);
+        assertNotNull(session.get(Author.class, testAuthorId));
     }
 
     @Test
     @Transactional
-    public void testGetRequest_when_no_request() {
+    public void testGetAuthor_when_no_author() {
         //Id doesn't exist
-        assertNull(requestDAO.getRequest(2));
+        assertNull(authorDAO.getAuthor(2));
     }
 
     @Test
     @Transactional
-    public void testGetRequest_when_one_request() {
+    public void testGetAuthor_when_one_author() {
         //Id exists
-        long id = (long) session.save(testingRequest);
-        Request gReq = requestDAO.getRequest(id);
-        assertNotNull(gReq);
-        assertEquals(id, gReq.getId());
+        long id = (long) session.save(testingUser);
+        Author gUsr = authorDAO.getAuthor(id);
+        assertNotNull(gUsr);
+        assertEquals(id, gUsr.getId());
     }
 
     @Test
     @Transactional
-    public void testGetRequestList_when_empty() {
+    public void testGetAuthorList_when_empty() {
         //Empty table
-        List<Request> requestList = requestDAO.getRequestList();
-        assertEquals(requestList.size(), 0);
+        List<Author> authorsList = authorDAO.getAuthorList();
+        assertEquals(authorsList.size(), 0);
     }
 
     @Test
     @Transactional
-    public void testGetRequestList_when_not_empty() {
+    public void testGetAuthorList_when_not_empty() {
         //Table with some entries
-        Author user = session.get(Author.class,session.save(testingUser));
-        testingRequest.setAuthor(user);
-        session.save(testingRequest);
-        List<Request> requestList = requestDAO.getRequestList();
-        assertEquals(1, requestList.size());
+        session.save(testingUser);
+        List<Author> authorsList = authorDAO.getAuthorList();
+        assertEquals(1, authorsList.size());
     }
 
     @Test
     @Transactional
-    public void testDeleteRequest_when_undefined() {
+    public void testDeleteAuthor_when_undefined() {
         //Remove undefined entity
-        assertFalse(requestDAO.deleteRequest(2));
+        assertFalse(authorDAO.deleteAuthor(2));
     }
 
     @Test
     @Transactional
-    public void testDeleteRequest_when_defined() {
+    public void testDeleteAuthor_when_defined() {
         //Remove defined entity
-        long id = (long) session.save(testingRequest);
-        assertNotNull(session.get(Request.class, id));
-        assertTrue(requestDAO.deleteRequest(id));
-        assertNull(session.get(Request.class, id));
+        long id = (long) session.save(testingUser);
+        assertNotNull(session.get(Author.class, id));
+        assertTrue(authorDAO.deleteAuthor(id));
+        assertNull(session.get(Author.class, id));
     }
 
 }

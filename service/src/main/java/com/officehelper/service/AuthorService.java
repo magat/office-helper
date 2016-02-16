@@ -2,7 +2,9 @@ package com.officehelper.service;
 
 import com.officehelper.dao.AuthorDAO;
 import com.officehelper.dto.AuthorDTO;
+import com.officehelper.dto.RequestDTO;
 import com.officehelper.entity.Author;
+import com.officehelper.entity.Request;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,5 +37,17 @@ public class AuthorService {
     @Transactional
     public boolean deleteAuthor(long id) {
         return authorDAO.deleteAuthor(id);
+    }
+
+    @Transactional
+    public List<RequestDTO> getRequestListFromAuthor(long authorId) {
+        Author auth = authorDAO.getAuthor(authorId);
+        if(auth != null) {
+            List<Request> rList = auth.getRequestList();
+            if(rList != null) {
+                return rList.stream().map(RequestDTO::new).collect(Collectors.toList());
+            }
+        }
+        return null;
     }
 }
