@@ -70,7 +70,7 @@ class IndexController {
 
     @RequestMapping(value = "/get_author_list", method = RequestMethod.GET)
     @ResponseBody
-    public List<AuthorDTO> getAuthorRequests() {
+    public List<AuthorDTO> getAuthorList() {
         return authorService.getAuthorList();
     }
 
