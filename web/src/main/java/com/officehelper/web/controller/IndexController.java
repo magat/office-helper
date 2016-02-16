@@ -22,6 +22,7 @@ class IndexController {
     @Inject
     AuthorService authorService;
 
+    //TODO : TO REMOVE, FOR TESTING PURPOSES ONLY
     @SuppressWarnings("SameReturnValue")
     @RequestMapping(value = "/", method = RequestMethod.GET)
     @ResponseBody
@@ -29,6 +30,7 @@ class IndexController {
         return reqService.getRequestList();
     }
 
+    //TODO : TO REMOVE, FOR TESTING PURPOSES ONLY
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     @ResponseBody
     public long addRandomStuff() {
@@ -58,5 +60,23 @@ class IndexController {
     @ResponseBody
     public List<RequestDTO> getAuthorRequests(@PathVariable long id) {
         return authorService.getRequestListFromAuthor(id);
+    }
+
+    @RequestMapping(value = "/get_author/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public AuthorDTO getAuthor(@PathVariable long id) {
+        return authorService.getAuthor(id);
+    }
+
+    @RequestMapping(value = "/get_author_list", method = RequestMethod.GET)
+    @ResponseBody
+    public List<AuthorDTO> getAuthorRequests() {
+        return authorService.getAuthorList();
+    }
+
+    @RequestMapping(value = "/get_request_list", method = RequestMethod.GET)
+    @ResponseBody
+    public List<RequestDTO> getRequestList() {
+        return reqService.getRequestList();
     }
 }
