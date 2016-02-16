@@ -41,23 +41,22 @@ class IndexController {
         return reqService.addRequest(newReq);
     }
 
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/delete_request/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public String deleteStuff(@PathVariable long id) {
+    public String deleteRequest(@PathVariable long id) {
         reqService.deleteRequest(id); //Erase last entry
         return "DELETED : ID - " + id;
     }
 
-    @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/get_request/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public RequestDTO getStuff(@PathVariable long id) {
+    public RequestDTO getRequest(@PathVariable long id) {
         return reqService.getRequest(id);
     }
 
-    //TODO : To remove, temporary testing Route
-    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    @RequestMapping(value = "/get_author_requests/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public List<RequestDTO> testingFunction() {
-        return authorService.getRequestListFromAuthor(1);
+    public List<RequestDTO> getAuthorRequests(@PathVariable long id) {
+        return authorService.getRequestListFromAuthor(id);
     }
 }
