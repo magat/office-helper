@@ -18,13 +18,13 @@ public class AuthorService {
     @Inject
     private AuthorDAO authorDAO;
 
-    @Transactional
+    @Transactional(readOnly=true)
     public List<AuthorDTO> getAuthorList() {
         List<Author> rList = authorDAO.getAuthorList();
         return rList.stream().map(AuthorDTO::new).collect(Collectors.toList());
     }
 
-    @Transactional
+    @Transactional(readOnly=true)
     public AuthorDTO getAuthor(long id) {
         return new AuthorDTO(authorDAO.getAuthor(id));
     }
@@ -39,7 +39,7 @@ public class AuthorService {
         return authorDAO.deleteAuthor(id);
     }
 
-    @Transactional
+    @Transactional(readOnly=true)
     public List<RequestDTO> getRequestListFromAuthor(long authorId) {
         Author auth = authorDAO.getAuthor(authorId);
         if(auth != null) {
