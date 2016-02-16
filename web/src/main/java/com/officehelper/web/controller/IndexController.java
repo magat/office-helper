@@ -1,8 +1,10 @@
 package com.officehelper.web.controller;
 
+import com.officehelper.dto.AuthorDTO;
 import com.officehelper.dto.RequestDTO;
 import com.officehelper.service.RequestService;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -30,16 +32,21 @@ class IndexController {
         newReq.setUrl("http://Valeur-Ajoutée.com");
         newReq.setTitle("Post-its");
         newReq.setStatus("WAIT ...");
-        newReq.setAuthor("User");
+        AuthorDTO author = new AuthorDTO();
+        newReq.setAuthor(author);
         return reqService.addRequest(newReq);
     }
 
-    @RequestMapping(value = "/delete", method = RequestMethod.GET)
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public String deleteStuff() {
-        List<RequestDTO> temp = reqService.getRequestList();
-        long lastId = temp.get(temp.size() - 1).getId();
-        reqService.deleteRequest(lastId); //Erase last entry
-        return "DELETED : ID - " + lastId;
+    public String deleteStuff(@PathVariable long id) {
+        reqService.deleteRequest(id); //Erase last entry
+        return "DELETED : ID - " + id;
+    }
+
+    @RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public RequestDTO getStuff(@PathVariable long id) {
+        return reqService.getRequest(id);
     }
 }

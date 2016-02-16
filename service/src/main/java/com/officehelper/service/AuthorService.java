@@ -1,0 +1,39 @@
+package com.officehelper.service;
+
+import com.officehelper.dao.AuthorDAO;
+import com.officehelper.dto.AuthorDTO;
+import com.officehelper.entity.Author;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.inject.Inject;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+public class AuthorService {
+
+    @Inject
+    private AuthorDAO authorDAO;
+
+    @Transactional
+    public List<AuthorDTO> getAuthorList() {
+        List<Author> rList = authorDAO.getAuthorList();
+        return rList.stream().map(AuthorDTO::new).collect(Collectors.toList());
+    }
+
+    @Transactional
+    public AuthorDTO getAuthor(long id) {
+        return new AuthorDTO(authorDAO.getAuthor(id));
+    }
+
+    @Transactional
+    public long addAuthor(AuthorDTO auth) {
+        return authorDAO.addAuthor(auth.toAuthor());
+    }
+
+    @Transactional
+    public boolean deleteAuthor(long id) {
+        return authorDAO.deleteAuthor(id);
+    }
+}

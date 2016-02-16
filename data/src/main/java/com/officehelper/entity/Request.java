@@ -25,7 +25,9 @@ public class Request {
     @Column(name = "date_ordered")
     private Date dateOrdered;
 
-    private String author;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "author")
+    private Author author;
 
     public Request() {
     }
@@ -34,7 +36,7 @@ public class Request {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -86,11 +88,11 @@ public class Request {
         this.dateOrdered = dateOrdered;
     }
 
-    public String getAuthor() {
+    public Author getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
+    public void setAuthor(Author author) {
         this.author = author;
     }
 }

@@ -1,6 +1,7 @@
 package com.officehelper.dao;
 
 import com.officehelper.config.DataTestConfig;
+import com.officehelper.entity.Author;
 import com.officehelper.entity.Request;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -27,17 +28,23 @@ public class RequestDAOTest {
     private SessionFactory sessionFactory;
     private Session session;
     private Request testingRequest;
+    private Author testingUser;
 
     @Before
     public void testInit() {
         testingRequest = new Request();
-        testingRequest.setAuthor("Testing User");
+        testingRequest.setAuthor(new Author());
         testingRequest.setDateCreated(new Date());
         testingRequest.setComments("Testing Comment");
         testingRequest.setTitle("Testing Title");
         testingRequest.setUrl("http://www.test.com");
         testingRequest.setStatus("Test Status");
         session = sessionFactory.getCurrentSession();
+
+        testingUser = new Author();
+        testingUser.setLastName("Admin");
+        testingUser.setFirstName("Admin");
+        testingUser.setEmail("test.test@test.com");
     }
 
     @Test
