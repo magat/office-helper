@@ -45,9 +45,8 @@ class IndexController {
 
     @RequestMapping(value = "/request/{id}/delete", method = RequestMethod.GET)
     @ResponseBody
-    public String deleteRequest(@PathVariable long id) {
-        reqService.deleteRequest(id); //Erase last entry
-        return "DELETED : ID - " + id;
+    public boolean deleteRequest(@PathVariable long id) {
+        return reqService.deleteRequest(id);
     }
 
     @RequestMapping(value = "/request/{id}", method = RequestMethod.GET)
