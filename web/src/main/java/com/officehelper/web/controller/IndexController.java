@@ -55,7 +55,7 @@ class IndexController {
         return reqService.getRequest(id);
     }
 
-    @RequestMapping(value = "/author/{id}/requests/get", method = RequestMethod.GET)
+    @RequestMapping(value = "/author/{id}/requests", method = RequestMethod.GET)
     @ResponseBody
     public List<RequestDTO> getAuthorRequests(@PathVariable long id) {
         return authorService.getRequestListFromAuthor(id);
