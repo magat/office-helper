@@ -5,6 +5,7 @@ import com.officehelper.dto.RequestDTO;
 import com.officehelper.service.AuthorService;
 import com.officehelper.service.RequestService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,12 +23,11 @@ class IndexController {
     @Inject
     AuthorService authorService;
 
-    //TODO : TO REMOVE, FOR TESTING PURPOSES ONLY
-    @SuppressWarnings("SameReturnValue")
+    //First Thymeleaf implementation :)
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    @ResponseBody
-    public List<RequestDTO> showIndex() {
-        return reqService.getRequestList();
+    public String index(Model model) {
+        model.addAttribute("recipient", "World");
+        return "index.html";
     }
 
     //TODO : TO REMOVE, FOR TESTING PURPOSES ONLY
