@@ -32,9 +32,10 @@ public class RequestDAO {
     //Returns false when the entity couldn't be deleted
     public boolean deleteRequest(long id) {
         Session hibernateSession = sessionFactory.getCurrentSession();
-        Request reqToDelete = getRequest(id);
-        if (reqToDelete != null) {
-            hibernateSession.delete(getRequest(id));
+        int requestDeleted = hibernateSession.createQuery("delete Request where id = :id")
+                .setParameter("id", id)
+                .executeUpdate();
+        if (requestDeleted == 1) {
             return true;
         }
         return false;
