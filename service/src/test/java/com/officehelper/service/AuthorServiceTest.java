@@ -22,13 +22,13 @@ import static org.mockito.Mockito.when;
 public class AuthorServiceTest {
 
     @Mock
-    AuthorDAO mockedAuthorDAO;
+    private AuthorDAO mockedAuthorDAO;
 
     @InjectMocks
-    AuthorService authorService;
+    private AuthorService authorService;
 
-    Author authorSample;
-    AuthorDTO authorDTOSample;
+    private Author authorSample;
+    private AuthorDTO authorDTOSample;
 
     @Before
     public void setup() {
