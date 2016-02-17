@@ -25,8 +25,8 @@ public class Request {
     @Column(name = "date_ordered")
     private Date dateOrdered;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "author")
+    @ManyToOne
+    @JoinColumn(name = "author", nullable = false)
     private Author author;
 
     public Request() {

@@ -17,18 +17,15 @@ public class RequestService {
     @Inject
     private RequestDAO requestDAO;
 
-    @Transactional(readOnly=true)
+    @Transactional(readOnly = true)
     public List<RequestDTO> getRequestList() {
         List<Request> rList = requestDAO.getRequestList();
         return rList.stream().map(RequestDTO::new).collect(Collectors.toList());
     }
 
-    @Transactional(readOnly=true)
+    @Transactional(readOnly = true)
     public RequestDTO getRequest(long id) {
         Request req = requestDAO.getRequest(id);
-        if (req != null) {
-            req.getAuthor();
-        }
         return new RequestDTO(req);
     }
 

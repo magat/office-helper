@@ -43,38 +43,44 @@ class IndexController {
         return reqService.addRequest(newReq);
     }
 
-    @RequestMapping(value = "/delete_request/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/request/{id}/delete", method = RequestMethod.GET)
     @ResponseBody
     public String deleteRequest(@PathVariable long id) {
         reqService.deleteRequest(id); //Erase last entry
         return "DELETED : ID - " + id;
     }
 
-    @RequestMapping(value = "/get_request/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/request/{id}", method = RequestMethod.GET)
     @ResponseBody
     public RequestDTO getRequest(@PathVariable long id) {
         return reqService.getRequest(id);
     }
 
-    @RequestMapping(value = "/get_author_requests/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/author/{id}/requests/get", method = RequestMethod.GET)
     @ResponseBody
     public List<RequestDTO> getAuthorRequests(@PathVariable long id) {
         return authorService.getRequestListFromAuthor(id);
     }
 
-    @RequestMapping(value = "/get_author/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/author/{id}/delete", method = RequestMethod.GET)
+    @ResponseBody
+    public boolean deleteAuthor(@PathVariable long id) {
+        return authorService.deleteAuthor(id);
+    }
+
+    @RequestMapping(value = "/author/{id}", method = RequestMethod.GET)
     @ResponseBody
     public AuthorDTO getAuthor(@PathVariable long id) {
         return authorService.getAuthor(id);
     }
 
-    @RequestMapping(value = "/get_author_list", method = RequestMethod.GET)
+    @RequestMapping(value = "/author", method = RequestMethod.GET)
     @ResponseBody
     public List<AuthorDTO> getAuthorList() {
         return authorService.getAuthorList();
     }
 
-    @RequestMapping(value = "/get_request_list", method = RequestMethod.GET)
+    @RequestMapping(value = "/request", method = RequestMethod.GET)
     @ResponseBody
     public List<RequestDTO> getRequestList() {
         return reqService.getRequestList();

@@ -32,9 +32,10 @@ public class AuthorDAO {
     //Returns false when the entity couldn't be deleted
     public boolean deleteAuthor(long id) {
         Session hibernateSession = sessionFactory.getCurrentSession();
-        Author authorToDelete = getAuthor(id);
-        if (authorToDelete != null) {
-            hibernateSession.delete(authorToDelete);
+        int authorDeleted = hibernateSession.createQuery("delete Author where id = :id")
+                .setParameter("id", id)
+                .executeUpdate();
+        if (authorDeleted == 1) {
             return true;
         }
         return false;

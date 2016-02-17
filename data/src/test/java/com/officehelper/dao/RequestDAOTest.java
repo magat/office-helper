@@ -87,7 +87,7 @@ public class RequestDAOTest {
     @Transactional
     public void testGetRequestList_when_not_empty() {
         //Table with some entries
-        Author user = session.get(Author.class,session.save(testingUser));
+        Author user = session.get(Author.class, session.save(testingUser));
         testingRequest.setAuthor(user);
         session.save(testingRequest);
         List<Request> requestList = requestDAO.getRequestList();

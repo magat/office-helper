@@ -45,7 +45,7 @@ public class AuthorServiceTest {
     @Test
     public void testAddAuthor() {
         when(mockedAuthorDAO.addAuthor(any())).thenReturn(2L);
-        assertEquals(authorService.addAuthor(authorDTOSample),2L);
+        assertEquals(authorService.addAuthor(authorDTOSample), 2L);
     }
 
     @Test
@@ -81,13 +81,13 @@ public class AuthorServiceTest {
         aDTOList.add(authorDTOSample);
 
         when(mockedAuthorDAO.getAuthorList()).thenReturn(aList);
-        assertEquals(authorService.getAuthorList(),aDTOList);
+        assertEquals(authorService.getAuthorList(), aDTOList);
     }
 
     @Test
     public void testGetAuthorList_when_no_entries_found() {
         when(mockedAuthorDAO.getAuthorList()).thenReturn(new ArrayList<>());
-        assertEquals(authorService.getAuthorList().size(),0);
+        assertEquals(authorService.getAuthorList().size(), 0);
     }
 
     @Test
@@ -104,8 +104,8 @@ public class AuthorServiceTest {
         authorSample.setRequestList(reqL);
         when(mockedAuthorDAO.getAuthor(anyLong())).thenReturn(authorSample);
 
-        assertEquals(authorService.getRequestListFromAuthor(5L).size(),1);
-        assertEquals(authorService.getRequestListFromAuthor(5L).get(0),new RequestDTO(reqSample));
+        assertEquals(authorService.getRequestListFromAuthor(5L).size(), 1);
+        assertEquals(authorService.getRequestListFromAuthor(5L).get(0), new RequestDTO(reqSample));
     }
 
 }

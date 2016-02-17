@@ -21,7 +21,7 @@ public class Author {
     @Column(name = "email")
     private String email;
 
-    @OneToMany(mappedBy="author")
+    @OneToMany(mappedBy = "author")
     private List<Request> requestList;
 
     public Author() {
@@ -64,7 +64,9 @@ public class Author {
         return requestList;
     }
 
-    public void setRequestList(List<Request> reqList) {this.requestList = reqList;}
+    public void setRequestList(List<Request> reqList) {
+        this.requestList = reqList;
+    }
 
     @Override
     public boolean equals(Object o) {

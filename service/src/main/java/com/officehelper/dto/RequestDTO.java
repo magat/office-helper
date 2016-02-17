@@ -22,7 +22,7 @@ public class RequestDTO {
     }
 
     public RequestDTO(Request req) {
-        if(req != null) {
+        if (req != null) {
             this.setAuthor(new AuthorDTO(req.getAuthor()));
             this.setComments(req.getComments());
             this.setDateCreated(req.getDateCreated());
