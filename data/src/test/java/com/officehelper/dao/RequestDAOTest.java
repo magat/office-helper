@@ -32,18 +32,18 @@ public class RequestDAOTest {
 
     @Before
     public void testInit() {
+        testingUser = new Author();
+        testingUser.setLastName("Admin");
+        testingUser.setFirstName("Admin");
+        testingUser.setEmail("test.test@test.com");
+
         testingRequest = new Request();
-        testingRequest.setAuthor(new Author());
+        testingRequest.setAuthor(testingUser);
         testingRequest.setDateCreated(new Date());
         testingRequest.setComments("Testing Comment");
         testingRequest.setTitle("Testing Title");
         testingRequest.setUrl("http://www.test.com");
         testingRequest.setStatus("Test Status");
-
-        testingUser = new Author();
-        testingUser.setLastName("Admin");
-        testingUser.setFirstName("Admin");
-        testingUser.setEmail("test.test@test.com");
 
         session = sessionFactory.getCurrentSession();
     }
@@ -87,8 +87,6 @@ public class RequestDAOTest {
     @Transactional
     public void testGetRequestList_when_not_empty() {
         //Table with some entries
-        Author user = session.get(Author.class, session.save(testingUser));
-        testingRequest.setAuthor(user);
         session.save(testingRequest);
         List<Request> requestList = requestDAO.getRequestList();
         assertEquals(1, requestList.size());
@@ -108,7 +106,6 @@ public class RequestDAOTest {
         long id = (long) session.save(testingRequest);
         assertNotNull(session.get(Request.class, id));
         assertTrue(requestDAO.deleteRequest(id));
-        assertNull(session.get(Request.class, id));
     }
 
 }

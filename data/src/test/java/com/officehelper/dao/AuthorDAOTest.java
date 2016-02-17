@@ -31,18 +31,18 @@ public class AuthorDAOTest {
 
     @Before
     public void testInit() {
+        testingUser = new Author();
+        testingUser.setLastName("Admin");
+        testingUser.setFirstName("Admin");
+        testingUser.setEmail("test.test@test.com");
+
         testingRequest = new Request();
-        testingRequest.setAuthor(new Author());
+        testingRequest.setAuthor(testingUser);
         testingRequest.setDateCreated(new Date());
         testingRequest.setComments("Testing Comment");
         testingRequest.setTitle("Testing Title");
         testingRequest.setUrl("http://www.test.com");
         testingRequest.setStatus("Test Status");
-
-        testingUser = new Author();
-        testingUser.setLastName("Admin");
-        testingUser.setFirstName("Admin");
-        testingUser.setEmail("test.test@test.com");
 
         session = sessionFactory.getCurrentSession();
     }
@@ -105,7 +105,5 @@ public class AuthorDAOTest {
         long id = (long) session.save(testingUser);
         assertNotNull(session.get(Author.class, id));
         assertTrue(authorDAO.deleteAuthor(id));
-        assertNull(session.get(Author.class, id));
     }
-
 }
