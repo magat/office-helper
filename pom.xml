@@ -42,6 +42,7 @@
         <thymeleaf.version>3.0.0.BETA01</thymeleaf.version>
         <unbescape.version>1.1.2.RELEASE</unbescape.version>
         <attoparser.version>2.0.0.BETA04</attoparser.version>
+        <layout.dialect.version>1.3.2</layout.dialect.version>
     </properties>
 
     <dependencies>
@@ -185,6 +186,13 @@
                 <artifactId>unbescape</artifactId>
                 <version>${unbescape.version}</version>
             </dependency>
+            <!-- Thymeleaf templates -->
+            <dependency>
+                <groupId>nz.net.ultraq.thymeleaf</groupId>
+                <artifactId>thymeleaf-layout-dialect</artifactId>
+                <version>${layout.dialect.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
