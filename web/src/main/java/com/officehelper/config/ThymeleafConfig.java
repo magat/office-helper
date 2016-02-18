@@ -1,5 +1,6 @@
 package com.officehelper.config;
 
+import nz.net.ultraq.thymeleaf.LayoutDialect;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
@@ -37,6 +38,7 @@ public class ThymeleafConfig extends WebMvcConfigurerAdapter implements Applicat
     private TemplateEngine templateEngine() {
         SpringTemplateEngine engine = new SpringTemplateEngine();
         engine.setTemplateResolver(templateResolver());
+        engine.addDialect(new LayoutDialect());
         return engine;
     }
 
