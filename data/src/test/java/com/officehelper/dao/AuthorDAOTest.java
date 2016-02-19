@@ -114,5 +114,7 @@ public class AuthorDAOTest {
         long id = (long) session.save(testingUser);
         assertNotNull(session.get(Author.class, id));
         assertTrue(authorDAO.deleteAuthor(id));
+        session.clear();
+        assertNull(session.get(Author.class, id));
     }
 }
