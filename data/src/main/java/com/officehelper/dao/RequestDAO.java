@@ -29,15 +29,15 @@ public class RequestDAO {
         return (long) hibernateSession.save(req);
     }
 
-    //Returns false when the entity couldn't be deleted
+    /**
+     * @param id
+     * @return Returns false when the entity couldn't be deleted
+     */
     public boolean deleteRequest(long id) {
         Session hibernateSession = sessionFactory.getCurrentSession();
         int requestDeleted = hibernateSession.createQuery("delete Request where id = :id")
                 .setParameter("id", id)
                 .executeUpdate();
-        if (requestDeleted == 1) {
-            return true;
-        }
-        return false;
+        return (requestDeleted != 0); // int -> bool
     }
 }

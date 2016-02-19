@@ -85,10 +85,19 @@ public class AuthorDAOTest {
     @Test
     @Transactional
     public void testGetAuthorList_when_not_empty() {
-        //Table with some entries
+        //Table with one user
         session.save(testingUser);
         List<Author> authorsList = authorDAO.getAuthorList();
         assertEquals(1, authorsList.size());
+
+        //With two users
+        Author testingUser2 = new Author();
+        testingUser2.setLastName("Admin2");
+        testingUser2.setFirstName("Admin2");
+        testingUser2.setEmail("test2.test@test.com");
+        session.save(testingUser2);
+        authorsList = authorDAO.getAuthorList();
+        assertEquals(2, authorsList.size());
     }
 
     @Test
