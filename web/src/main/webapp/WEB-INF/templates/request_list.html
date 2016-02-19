@@ -21,8 +21,10 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Home</a></li>
-                <li><a href="#about">About</a></li>
+                <li class="active"><a href="#">New orders</a></li>
+                <li><a href="#">Accepted</a></li>
+                <li><a href="#">Received</a></li>
+                <li><a href="#about">Archives</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
         </div>
@@ -32,23 +34,59 @@
 <div class="container">
 
     <div class="starter-template">
-        <h1>List of commands</h1>
+        <h1>List of orders</h1>
         <p>Here is the list of the current orders</p>
         <table class="table">
             <thead>
                 <tr>
-                    <td>Date</td>
-                    <td>Product</td>
-                    <td>Author</td>
+                    <th>Date</th>
+                    <th>Product</th>
+                    <th>Author</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
                 <tr th:each="request : ${requestList}">
-                    <td th:text="${request.getDateCreated()}"></td>
+                    <td th:text="${request.getDateCreatedToString()}"></td>
                     <td th:text="${request.getTitle()}"></td>
                     <td><span th:text="${request.getAuthor().getFirstName()}"></span> <span th:text="${request.getAuthor().getLastName()}"></span></td>
+                    <td>
+                        <a href="#"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></a>
+                        <a href="#" class="text-danger"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+                    </td>
                 </tr>
             </tbody>
+            <tfoot>
+                <form>
+                    <tr>
+                        <td colspan="3"><input class="form-control" type="text" placeholder="Product" required="true"></td>
+                        <td><input class="btn btn-success" type="submit"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <p><a href="#" id="more_information"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add more information to your order...</a></p>
+                            <div id="more_information_form">
+                                <div class="form-group">
+                                    <label for="url">Article</label>
+                                    <input type="url" class="form-control" id="url" name="url" placeholder="Url">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="comments">Comments</label>
+                                    <textarea class="form-control" id="comments" name="comments" rows="3"></textarea>
+                                </div>
+
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" value="">
+                                        Important order
+                                    </label>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </form>
+            </tfoot>
         </table>
     </div>
 
@@ -57,5 +95,6 @@
 <!-- Scripts Inclusions -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script th:src="@{/static/js/bootstrap.min.js}" src="../../static/js/bootstrap.min.js"></script>
+<script th:src="@{/static/js/animations.js}" src="../../static/js/animations.js"></script>
 </body>
 </html>

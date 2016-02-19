@@ -2,6 +2,7 @@ package com.officehelper.dto;
 
 import com.officehelper.entity.Request;
 
+import java.text.DateFormat;
 import java.util.Date;
 import java.util.Objects;
 
@@ -86,6 +87,14 @@ public class RequestDTO {
         return dateOrdered;
     }
 
+    public String getDateOrderedToString() {
+        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL);
+        if (dateOrdered != null) {
+            return dateFormat.format(dateOrdered);
+        }
+        return "";
+    }
+
     public void setDateOrdered(Date dateOrdered) {
         this.dateOrdered = dateOrdered;
     }
@@ -100,6 +109,14 @@ public class RequestDTO {
 
     public Date getDateCreated() {
         return dateCreated;
+    }
+
+    public String getDateCreatedToString() {
+        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL);
+        if (dateCreated != null) {
+            return dateFormat.format(dateCreated);
+        }
+        return "";
     }
 
     public void setDateCreated(Date dateCreated) {

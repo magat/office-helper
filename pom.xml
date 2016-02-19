@@ -186,12 +186,6 @@
                 <artifactId>unbescape</artifactId>
                 <version>${unbescape.version}</version>
             </dependency>
-            <!-- Thymeleaf templates -->
-            <dependency>
-                <groupId>nz.net.ultraq.thymeleaf</groupId>
-                <artifactId>thymeleaf-layout-dialect</artifactId>
-                <version>${layout.dialect.version}</version>
-            </dependency>
 
         </dependencies>
     </dependencyManagement>

@@ -5,3 +5,7 @@ body {
 .starter-template {
     padding: 40px 15px;
 }
+
+#more_information_form {
+    display:none;
+}
