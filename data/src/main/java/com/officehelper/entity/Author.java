@@ -24,10 +24,6 @@ public class Author {
     @OneToMany(mappedBy = "author")
     private List<Request> requestList;
 
-    public Author() {
-
-    }
-
     public long getId() {
         return id;
     }

@@ -35,9 +35,6 @@ public class Request {
     @JoinColumn(name = "author", nullable = false)
     private Author author;
 
-    public Request() {
-    }
-
     public long getId() {
         return id;
     }
