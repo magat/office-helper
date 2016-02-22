@@ -2,6 +2,7 @@ package com.officehelper.web.controller;
 
 import com.officehelper.dto.AuthorDTO;
 import com.officehelper.dto.RequestDTO;
+import com.officehelper.entity.Status;
 import com.officehelper.service.AuthorService;
 import com.officehelper.service.RequestService;
 import org.springframework.stereotype.Controller;
@@ -24,8 +25,8 @@ class IndexController {
     //First Thymeleaf implementation :)
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(Model model) {
-        model.addAttribute("recipient", "World");
-        return "index.html";
+        model.addAttribute("requestList", reqService.getRequestList());
+        return "request_list.html";
     }
 
     @RequestMapping(value = "/request", method = RequestMethod.GET)
@@ -35,44 +36,27 @@ class IndexController {
     }
 
     @RequestMapping(value = "/request/add", method = RequestMethod.POST)
-    public String addRequest(Model model,
+    @ResponseBody
+    public long addRequest(Model model,
                              @RequestParam("first_name") String firstName,
-                             @RequestParam("last_name") String lastName,
-                             @RequestParam("email") String email,
                              @RequestParam("title") String title,
                              @RequestParam("url") String url,
                              @RequestParam("comments") String comments) {
         AuthorDTO author = new AuthorDTO();
-        author.setEmail(email);
         author.setFirstName(firstName);
-        author.setLastName(lastName);
         RequestDTO request = new RequestDTO();
         request.setAuthor(author);
         request.setComments(comments);
         request.setTitle(title);
         request.setUrl(url);
         request.setDateCreated(new Date());
-        request.setStatus("Pending");
-        long reqId = reqService.addRequest(request);
-        return "request_list.html";
+        request.setStatus(Status.NEW);
+        return reqService.addRequest(request);
     }
 
     @RequestMapping(value = "/request/add", method = RequestMethod.GET)
     public String addRequestForm(Model model) {
         return "request_add_form.html";
-    }
-
-    //TODO : TO REMOVE, FOR TESTING PURPOSES ONLY
-    @RequestMapping(value = "/add", method = RequestMethod.GET)
-    @ResponseBody
-    public long addRandomStuff() {
-        RequestDTO newReq = new RequestDTO();
-        newReq.setUrl("http://Valeur-Ajoutée.com");
-        newReq.setTitle("Post-its");
-        newReq.setStatus("WAIT ...");
-        AuthorDTO author = new AuthorDTO();
-        newReq.setAuthor(author);
-        return reqService.addRequest(newReq);
     }
 
     @RequestMapping(value = "/request/{id}/delete", method = RequestMethod.GET)

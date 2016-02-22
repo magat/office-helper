@@ -3,6 +3,7 @@ package com.officehelper.dao;
 import com.officehelper.config.DataTestConfig;
 import com.officehelper.entity.Author;
 import com.officehelper.entity.Request;
+import com.officehelper.entity.Status;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.Before;
@@ -43,7 +44,7 @@ public class RequestDAOTest {
         testingRequest.setComments("Testing Comment");
         testingRequest.setTitle("Testing Title");
         testingRequest.setUrl("http://www.test.com");
-        testingRequest.setStatus("Test Status");
+        testingRequest.setStatus(Status.NEW);
 
         session = sessionFactory.getCurrentSession();
     }

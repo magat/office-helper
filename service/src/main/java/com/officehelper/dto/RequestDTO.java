@@ -1,6 +1,7 @@
 package com.officehelper.dto;
 
 import com.officehelper.entity.Request;
+import com.officehelper.entity.Status;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -12,7 +13,7 @@ public class RequestDTO {
     private Date dateCreated;
     private String title;
     private String url;
-    private String status;
+    private Status status;
     private String comments;
     private Date dateOrdered;
     private AuthorDTO author;
@@ -20,6 +21,7 @@ public class RequestDTO {
     public RequestDTO() {
         this.dateCreated = new Date();
         this.author = new AuthorDTO();
+        this.status = Status.NEW;
     }
 
     public RequestDTO(Request req) {
@@ -67,11 +69,11 @@ public class RequestDTO {
         this.url = url;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
@@ -90,7 +92,8 @@ public class RequestDTO {
     public String getDateOrderedToString() {
         DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL);
         if (dateOrdered != null) {
-            return dateFormat.format(dateOrdered);
+            String date = dateFormat.format(dateOrdered);
+            return date.substring(0, 1).toUpperCase() + date.substring(1);
         }
         return "";
     }
@@ -114,7 +117,8 @@ public class RequestDTO {
     public String getDateCreatedToString() {
         DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL);
         if (dateCreated != null) {
-            return dateFormat.format(dateCreated);
+            String date = dateFormat.format(dateCreated);
+            return date.substring(0, 1).toUpperCase() + date.substring(1);
         }
         return "";
     }

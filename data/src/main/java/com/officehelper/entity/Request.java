@@ -23,7 +23,8 @@ public class Request {
 
     private String url;
 
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     private String comments;
 
@@ -67,11 +68,11 @@ public class Request {
         this.url = url;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 

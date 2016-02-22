@@ -23,8 +23,8 @@ db.test.driver=org.postgresql.Driver
 CREATE TABLE author (
   id BIGSERIAL NOT NULL,
   first_name character varying(255) NOT NULL,
-  last_name character varying(255) NOT NULL,
-  email character varying(255) NOT NULL
+  last_name character varying(255), /*NOT NULL TODO : For future implementations*/
+  email character varying(255) /*NOT NULL TODO : For future implementations*/
 );
 
 ALTER TABLE author ADD CONSTRAINT author_id_pkey PRIMARY KEY(id);
@@ -34,7 +34,7 @@ CREATE TABLE request (
   date_created timestamp WITH time zone NOT NULL,
   title character varying(255) NOT NULL,
   url character varying(255),
-  status character varying(255) NOT NULL,
+  status character varying(10) NOT NULL,
   comments text,
   date_ordered timestamp WITH time zone,
   author BIGINT NOT NULL references author(id)
