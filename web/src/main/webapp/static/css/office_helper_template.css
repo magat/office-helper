@@ -9,3 +9,11 @@ body {
 #more_information_form {
     display:none;
 }
+
+.hidden_element {
+    visibility: hidden;
+}
+
+.hover_container:hover .hidden_element {
+    visibility: visible;
+}

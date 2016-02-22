@@ -2,7 +2,10 @@ package com.officehelper.dto;
 
 import com.officehelper.entity.Request;
 import com.officehelper.entity.Status;
+import org.hibernate.validator.constraints.URL;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Objects;
@@ -10,12 +13,24 @@ import java.util.Objects;
 public class RequestDTO {
 
     private long id;
+
+    @NotNull
     private Date dateCreated;
+
+    @NotNull @Size(min=3, max=255)
     private String title;
+
+    @URL
     private String url;
+
+    @NotNull
     private Status status;
+
     private String comments;
+
     private Date dateOrdered;
+
+    @NotNull
     private AuthorDTO author;
 
     public RequestDTO() {
