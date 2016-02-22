@@ -2,7 +2,7 @@ package com.officehelper.entity;
 
 public enum Status {
     NEW,
-    REJECTED,
-    ACCEPTED,
+    REFUSED,
+    ORDERED,
     RECEIVED
 }

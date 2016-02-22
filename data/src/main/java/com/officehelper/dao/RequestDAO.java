@@ -1,7 +1,7 @@
 package com.officehelper.dao;
 
 import com.officehelper.entity.Request;
-import org.hibernate.Hibernate;
+import com.officehelper.entity.Status;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Component;
@@ -16,7 +16,7 @@ public class RequestDAO {
 
     public List<Request> getRequestList() {
         Session hibernateSession = sessionFactory.getCurrentSession();
-        return hibernateSession.createQuery("from Request").list();
+        return hibernateSession.createQuery("from Request order by dateCreated").list();
     }
 
     public Request getRequest(long id) {
@@ -39,5 +39,15 @@ public class RequestDAO {
                 .setParameter("id", id)
                 .executeUpdate();
         return (requestDeleted != 0); // int -> bool
+    }
+
+    public boolean updateStatus(long id, Status status) {
+        Session hibernateSession = sessionFactory.getCurrentSession();
+        Request r = hibernateSession.get(Request.class, id);
+        if(r == null) {
+            return false;
+        }
+        r.setStatus(status);
+        return true;
     }
 }

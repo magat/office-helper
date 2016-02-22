@@ -9,16 +9,63 @@ $("#more_information").click(function () {
     }
 });
 
-$(".request_eraser").click(function () {
+$(".delete_request").click(function () {
     var request = $(this).closest(".request");
     var id = request.attr("data-id");
     var url = "request/" + id + "/delete";
+    var confirmation = confirm("Do you really want to erase this order ?");
+    if(confirmation) {
+        $.ajax({
+            type: "GET",
+            url: url,
+            success: function (response) {
+                if (response.status != "SUCCESS") {
+                    alert("Error : The order couldn't be deleted.");
+                }
+                else {
+                    request.remove();
+                }
+            },
+            error: function () {
+                alert("An unexpected error occurred. Please contact an administrator.");
+            },
+            dataType: 'json'
+        });
+    }
+})
+
+$(".refuse_request").click(function () {
+    var request = $(this).closest(".request");
+    var id = request.attr("data-id");
+    var url = "request/" + id + "/refuse";
     $.ajax({
         type: "GET",
         url: url,
         success: function (response) {
             if (response.status != "SUCCESS") {
-                alert("Error : The order couldn't be deleted.");
+                alert("Error : The order couldn't be aborted.");
+            }
+            else {
+                request.remove();
+            }
+        },
+        error: function () {
+            alert("An unexpected error occurred. Please contact an administrator.");
+        },
+        dataType: 'json'
+    });
+})
+
+$(".proceed_workflow").click(function () {
+    var request = $(this).closest(".request");
+    var id = request.attr("data-id");
+    var url = "request/" + id + "/proceed_workflow";
+    $.ajax({
+        type: "GET",
+        url: url,
+        success: function (response) {
+            if (response.status != "SUCCESS") {
+                alert("Error : Failed to update request status");
             }
             else {
                 request.remove();
@@ -32,7 +79,6 @@ $(".request_eraser").click(function () {
 })
 
 $('form[id=sendRequest]').submit(function () {
-    // TODO : LOADING INDICATOR
     var form = $(this);
     var data = form.serialize();
     $.ajax({

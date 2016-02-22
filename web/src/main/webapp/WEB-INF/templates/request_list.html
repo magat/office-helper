@@ -64,9 +64,9 @@
                     <td><span th:text="${request.getAuthor().getFirstName()}"></span> <span
                             th:text="${request.getAuthor().getLastName()}"></span></td>
                     <td class="hidden_element">
-                        <a href="#"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></a>
-                        <a href="#"><span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span></a>
-                        <a href="#" class="text-danger request_eraser"><span class="glyphicon glyphicon-erase" aria-hidden="true"></span></a>
+                        <a href="#" class="proceed_workflow"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></a>
+                        <a href="#" class="refuse_request"><span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span></a>
+                        <a href="#" class="text-danger delete_request"><span class="glyphicon glyphicon-erase" aria-hidden="true"></span></a>
                     </td>
                 </tr>
                 </tbody>

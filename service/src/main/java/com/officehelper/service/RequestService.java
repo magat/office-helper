@@ -3,6 +3,7 @@ package com.officehelper.service;
 import com.officehelper.dao.RequestDAO;
 import com.officehelper.dto.RequestDTO;
 import com.officehelper.entity.Request;
+import com.officehelper.entity.Status;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +34,24 @@ public class RequestService {
         Request r = req.toRequest();
         r.setAuthor(req.getAuthor().toAuthor());
         return requestDAO.addRequest(r);
+    }
+
+    @Transactional
+    public boolean proceedRequestWorkflow(long id) {
+        Request r = requestDAO.getRequest(id);
+        Status currentStatus = r.getStatus();
+        if(currentStatus == Status.NEW) {
+            currentStatus = Status.ORDERED;
+        }
+        else if(currentStatus == Status.ORDERED) {
+            currentStatus = Status.RECEIVED;
+        }
+        return requestDAO.updateStatus(id,currentStatus);
+    }
+
+    @Transactional
+    public boolean refuseRequest(long id) {
+        return requestDAO.updateStatus(id,Status.REFUSED);
     }
 
     @Transactional
