@@ -2,6 +2,7 @@ package com.officehelper.dao;
 
 import com.officehelper.entity.Request;
 import com.officehelper.entity.Status;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Component;
@@ -17,6 +18,27 @@ public class RequestDAO {
     public List<Request> getRequestList() {
         Session hibernateSession = sessionFactory.getCurrentSession();
         return hibernateSession.createQuery("from Request order by dateCreated").list();
+    }
+
+    public List<Request> getNewRequests() {
+        Session hibernateSession = sessionFactory.getCurrentSession();
+        Query query = hibernateSession.createQuery("from Request where status=:newStatus order by dateCreated");
+        query.setParameter("newStatus",Status.NEW);
+        return query.list();
+    }
+
+    public List<Request> getOrderedRequests() {
+        Session hibernateSession = sessionFactory.getCurrentSession();
+        Query query = hibernateSession.createQuery("from Request where status=:orderedStatus order by dateCreated");
+        query.setParameter("orderedStatus",Status.ORDERED);
+        return query.list();
+    }
+
+    public List<Request> getReceivedRequests() {
+        Session hibernateSession = sessionFactory.getCurrentSession();
+        Query query = hibernateSession.createQuery("from Request where status=:receivedStatus order by dateReceived");
+        query.setParameter("receivedStatus",Status.RECEIVED);
+        return query.list();
     }
 
     public Request getRequest(long id) {

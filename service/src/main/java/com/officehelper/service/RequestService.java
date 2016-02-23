@@ -24,6 +24,12 @@ public class RequestService {
     }
 
     @Transactional(readOnly = true)
+    public List<RequestDTO> getNewRequests() {
+        List<Request> rList = requestDAO.getNewRequests();
+        return rList.stream().map(RequestDTO::new).collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
     public RequestDTO getRequest(long id) {
         Request req = requestDAO.getRequest(id);
         return new RequestDTO(req);

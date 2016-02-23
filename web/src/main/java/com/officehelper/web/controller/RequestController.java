@@ -24,7 +24,7 @@ class RequestController {
 
     @RequestMapping(value = {"/", "/request"}, method = RequestMethod.GET)
     public String index(Model model) {
-        model.addAttribute("requestList", reqService.getRequestList());
+        model.addAttribute("requestList", reqService.getNewRequests());
         model.addAttribute("request", new RequestDTO());
         model.addAttribute("author", new AuthorDTO());
         return "request_list.html";
