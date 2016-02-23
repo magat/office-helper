@@ -1,6 +1,11 @@
 package com.officehelper.entity;
 
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.CascadeType;
+
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.Date;
 
 @Entity
@@ -25,16 +30,16 @@ public class Request {
     @Column(name = "date_ordered")
     private Date dateOrdered;
 
-    private String author;
-
-    public Request() {
-    }
+    @ManyToOne
+    @Cascade({CascadeType.PERSIST, CascadeType.SAVE_UPDATE})
+    @JoinColumn(name = "author", nullable = false)
+    private Author author;
 
     public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -86,11 +91,11 @@ public class Request {
         this.dateOrdered = dateOrdered;
     }
 
-    public String getAuthor() {
+    public Author getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
+    public void setAuthor(Author author) {
         this.author = author;
     }
 }

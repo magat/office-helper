@@ -1,6 +1,6 @@
 package com.officehelper.dao;
 
-import com.officehelper.entity.Request;
+import com.officehelper.entity.Author;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -10,34 +10,34 @@ import javax.inject.Inject;
 import java.util.List;
 
 @Component
-public class RequestDAO {
+public class AuthorDAO {
     @Inject
     private SessionFactory sessionFactory;
 
-    public List<Request> getRequestList() {
+    public List<Author> getAuthorList() {
         Session hibernateSession = sessionFactory.getCurrentSession();
-        return hibernateSession.createQuery("from Request").list();
+        return hibernateSession.createQuery("from Author").list();
     }
 
-    public Request getRequest(long id) {
+    public Author getAuthor(long id) {
         Session hibernateSession = sessionFactory.getCurrentSession();
-        return hibernateSession.get(Request.class, id);
+        return hibernateSession.get(Author.class, id);
     }
 
-    public long addRequest(Request req) {
+    public long addAuthor(Author author) {
         Session hibernateSession = sessionFactory.getCurrentSession();
-        return (long) hibernateSession.save(req);
+        return (long) hibernateSession.save(author);
     }
 
-    /**
-     * @param id
-     * @return Returns false when the entity couldn't be deleted
-     */
-    public boolean deleteRequest(long id) {
+    //Returns false when the entity couldn't be deleted
+    public boolean deleteAuthor(long id) {
         Session hibernateSession = sessionFactory.getCurrentSession();
-        int requestDeleted = hibernateSession.createQuery("delete Request where id = :id")
+        int authorDeleted = hibernateSession.createQuery("delete Author where id = :id")
                 .setParameter("id", id)
                 .executeUpdate();
-        return (requestDeleted != 0); // int -> bool
+        if (authorDeleted == 1) {
+            return true;
+        }
+        return false;
     }
 }

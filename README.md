@@ -20,6 +20,15 @@ db.test.driver=org.postgresql.Driver
 
 - The DB should match the following structure :
 ```
+CREATE TABLE author (
+  id BIGSERIAL NOT NULL,
+  first_name character varying(255) NOT NULL,
+  last_name character varying(255) NOT NULL,
+  email character varying(255) NOT NULL
+);
+
+ALTER TABLE author ADD CONSTRAINT author_id_pkey PRIMARY KEY(id);
+
 CREATE TABLE request (
   id BIGSERIAL NOT NULL,
   date_created timestamp WITH time zone NOT NULL,
@@ -28,8 +37,8 @@ CREATE TABLE request (
   status character varying(255) NOT NULL,
   comments text,
   date_ordered timestamp WITH time zone,
-  author character varying(255) NOT NULL
+  author BIGINT NOT NULL references author(id)
 );
 
-ALTER TABLE request ADD CONSTRAINT id_pkey PRIMARY KEY(id);
+ALTER TABLE request ADD CONSTRAINT request_id_pkey PRIMARY KEY(id);
 ```

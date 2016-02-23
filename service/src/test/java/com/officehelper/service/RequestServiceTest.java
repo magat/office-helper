@@ -2,6 +2,7 @@ package com.officehelper.service;
 
 import com.officehelper.dao.RequestDAO;
 import com.officehelper.dto.RequestDTO;
+import com.officehelper.entity.Author;
 import com.officehelper.entity.Request;
 import org.junit.Before;
 import org.junit.Test;
@@ -43,7 +44,7 @@ public class RequestServiceTest {
         /* If there is a match in the database */
         Request received = new Request();
         received.setDateCreated(new Date());
-        received.setAuthor("User");
+        received.setAuthor(new Author());
         when(mockedRequestDAO.getRequest(10L)).thenReturn(received);
         assertEquals(requestService.getRequest(10L), new RequestDTO(received));
     }
@@ -51,7 +52,7 @@ public class RequestServiceTest {
     @Test
     public void testGetRequest_when_no_entry_found() {
         when(mockedRequestDAO.getRequest(10L)).thenReturn(null);
-        assertEquals(requestService.getRequest(10L), new RequestDTO(new Request()));
+        assertEquals(requestService.getRequest(10L), new RequestDTO(null));
     }
 
     @Test
@@ -72,12 +73,12 @@ public class RequestServiceTest {
         //Request 1
         Request receivedRequest = new Request();
         receivedRequest.setDateCreated(new Date());
-        receivedRequest.setAuthor("User");
+        receivedRequest.setAuthor(new Author());
 
         //Request 2
         Request receivedRequest2 = new Request();
         receivedRequest2.setDateCreated(new Date());
-        receivedRequest2.setAuthor("User 2");
+        receivedRequest2.setAuthor(new Author());
 
         List<Request> receivedRequestList = new ArrayList<>();
         receivedRequestList.add(receivedRequest);

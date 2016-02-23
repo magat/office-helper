@@ -14,16 +14,16 @@ public class RequestDTO {
     private String status;
     private String comments;
     private Date dateOrdered;
-    private String author;
+    private AuthorDTO author;
 
     public RequestDTO() {
         this.dateCreated = new Date();
-        this.author = "User";
+        this.author = new AuthorDTO();
     }
 
     public RequestDTO(Request req) {
-        if(req != null) {
-            this.setAuthor(req.getAuthor());
+        if (req != null) {
+            this.setAuthor(new AuthorDTO(req.getAuthor()));
             this.setComments(req.getComments());
             this.setDateCreated(req.getDateCreated());
             this.setDateOrdered(req.getDateOrdered());
@@ -36,7 +36,7 @@ public class RequestDTO {
 
     public Request toRequest() {
         Request req = new Request();
-        req.setAuthor(this.getAuthor());
+        req.setAuthor(this.getAuthor().toAuthor());
         req.setComments(this.getComments());
         req.setDateCreated(this.getDateCreated());
         req.setDateOrdered(this.getDateOrdered());
@@ -90,11 +90,11 @@ public class RequestDTO {
         this.dateOrdered = dateOrdered;
     }
 
-    public String getAuthor() {
+    public AuthorDTO getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
+    public void setAuthor(AuthorDTO author) {
         this.author = author;
     }
 
