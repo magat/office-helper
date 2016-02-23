@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
-import java.util.List;
 
 @Controller
 class RequestController {
@@ -23,8 +22,13 @@ class RequestController {
     @Inject
     AuthorService authorService;
 
-    @RequestMapping(value = {"/", "/request"}, method = RequestMethod.GET)
+    @RequestMapping(value="/", method = RequestMethod.GET)
     public String index(Model model) {
+        return "redirect:/request/new";
+    }
+
+    @RequestMapping(value = "/request/new", method = RequestMethod.GET)
+    public String newRequests(Model model) {
         model.addAttribute("requestList", reqService.getNewRequests());
         model.addAttribute("request", new RequestDTO());
         model.addAttribute("author", new AuthorDTO());
@@ -32,21 +36,27 @@ class RequestController {
     }
 
     @RequestMapping(value = "/request/ordered", method = RequestMethod.GET)
-    @ResponseBody
-    public List<RequestDTO> orderedRequests(Model model) {
-        return reqService.getOrderedRequests();
+    public String orderedRequests(Model model) {
+        model.addAttribute("requestList", reqService.getOrderedRequests());
+        model.addAttribute("request", new RequestDTO());
+        model.addAttribute("author", new AuthorDTO());
+        return "request_ordered.html";
     }
 
     @RequestMapping(value = "/request/received", method = RequestMethod.GET)
-    @ResponseBody
-    public List<RequestDTO> receivedRequests(Model model) {
-        return reqService.getReceivedRequests();
+    public String receivedRequests(Model model) {
+        model.addAttribute("requestList", reqService.getReceivedRequests());
+        model.addAttribute("request", new RequestDTO());
+        model.addAttribute("author", new AuthorDTO());
+        return "request_received.html";
     }
 
     @RequestMapping(value = "/request/archived", method = RequestMethod.GET)
-    @ResponseBody
-    public List<RequestDTO> archivedRequests(Model model) {
-        return reqService.getArchivedRequests();
+    public String archivedRequests(Model model) {
+        model.addAttribute("requestList", reqService.getArchivedRequests());
+        model.addAttribute("request", new RequestDTO());
+        model.addAttribute("author", new AuthorDTO());
+        return "request_archived.html";
     }
 
     @RequestMapping(value = "/request/add", method = RequestMethod.POST)

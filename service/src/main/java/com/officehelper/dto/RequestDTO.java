@@ -47,6 +47,7 @@ public class RequestDTO {
             this.setComments(req.getComments());
             this.setDateCreated(req.getDateCreated());
             this.setDateOrdered(req.getDateOrdered());
+            this.setDateReceived(req.getDateReceived());
             this.setStatus(req.getStatus());
             this.setTitle(req.getTitle());
             this.setUrl(req.getUrl());
@@ -60,6 +61,7 @@ public class RequestDTO {
         req.setComments(this.getComments());
         req.setDateCreated(this.getDateCreated());
         req.setDateOrdered(this.getDateOrdered());
+        req.setDateReceived(this.getDateReceived());
         req.setStatus(this.getStatus());
         req.setTitle(this.getTitle());
         req.setUrl(this.getUrl());

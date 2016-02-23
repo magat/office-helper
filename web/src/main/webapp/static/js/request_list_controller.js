@@ -12,7 +12,7 @@ $("#more_information").click(function () {
 $(".delete_request").click(function () {
     var request = $(this).closest(".request");
     var id = request.attr("data-id");
-    var url = "request/" + id + "/delete";
+    var url = id + "/delete";
     var confirmation = confirm("Do you really want to erase this order ?");
     if(confirmation) {
         $.ajax({
@@ -37,7 +37,7 @@ $(".delete_request").click(function () {
 $(".refuse_request").click(function () {
     var request = $(this).closest(".request");
     var id = request.attr("data-id");
-    var url = "request/" + id + "/refuse";
+    var url = id + "/refuse";
     $.ajax({
         type: "GET",
         url: url,
@@ -59,7 +59,7 @@ $(".refuse_request").click(function () {
 $(".proceed_workflow").click(function () {
     var request = $(this).closest(".request");
     var id = request.attr("data-id");
-    var url = "request/" + id + "/proceed_workflow";
+    var url = id + "/proceed_workflow";
     $.ajax({
         type: "GET",
         url: url,
