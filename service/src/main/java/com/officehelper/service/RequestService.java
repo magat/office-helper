@@ -31,7 +31,6 @@ public class RequestService {
     @Transactional
     public long addRequest(RequestDTO req) {
         Request r = req.toRequest();
-        r.setAuthor(req.getAuthor().toAuthor());
         return requestDAO.addRequest(r);
     }
 

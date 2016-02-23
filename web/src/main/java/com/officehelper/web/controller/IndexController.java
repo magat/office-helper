@@ -13,7 +13,7 @@ import java.util.Date;
 import java.util.List;
 
 @Controller
-class IndexController {
+public class IndexController {
 
     @Inject
     RequestService reqService;
