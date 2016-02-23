@@ -14,7 +14,7 @@ import javax.inject.Inject;
 import javax.validation.Valid;
 
 @Controller
-class RequestController {
+public class RequestController {
 
     @Inject
     RequestService reqService;
@@ -88,6 +88,16 @@ class RequestController {
     public ValidationResponse proceedWorkflow(@PathVariable long id) {
         ValidationResponse response = new ValidationResponse();
         if(!reqService.proceedRequestWorkflow(id)) {
+            response.setStatus("FAIL");
+        }
+        return response;
+    }
+
+    @RequestMapping(value = "/request/{id}/revert_workflow", method = RequestMethod.GET)
+    @ResponseBody
+    public ValidationResponse revertWorkflow(@PathVariable long id) {
+        ValidationResponse response = new ValidationResponse();
+        if(!reqService.revertRequestWorkflow(id)) {
             response.setStatus("FAIL");
         }
         return response;

@@ -78,6 +78,28 @@ $(".proceed_workflow").click(function () {
     });
 })
 
+$(".revert_workflow").click(function () {
+    var request = $(this).closest(".request");
+    var id = request.attr("data-id");
+    var url = id + "/revert_workflow";
+    $.ajax({
+        type: "GET",
+        url: url,
+        success: function (response) {
+            if (response.status != "SUCCESS") {
+                alert("Error : Failed to update request status");
+            }
+            else {
+                request.remove();
+            }
+        },
+        error: function () {
+            alert("An unexpected error occurred. Please contact an administrator.");
+        },
+        dataType: 'json'
+    });
+})
+
 $('form[id=sendRequest]').submit(function () {
     var form = $(this);
     var data = form.serialize();

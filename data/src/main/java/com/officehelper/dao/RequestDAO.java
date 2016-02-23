@@ -88,23 +88,23 @@ public class RequestDAO {
         return true;
     }
 
-    public boolean refreshRequestOrderDate(long id) {
+    public boolean updateRequestOrderDate(long id, Date date) {
         Session hibernateSession = sessionFactory.getCurrentSession();
         Request r = hibernateSession.get(Request.class, id);
         if(r == null) {
             return false;
         }
-        r.setDateOrdered(new Date());
+        r.setDateOrdered(date);
         return true;
     }
 
-    public boolean refreshRequestDeliveryDate(long id) {
+    public boolean updateRequestDeliveryDate(long id, Date date) {
         Session hibernateSession = sessionFactory.getCurrentSession();
         Request r = hibernateSession.get(Request.class, id);
         if(r == null) {
             return false;
         }
-        r.setDateReceived(new Date());
+        r.setDateReceived(date);
         return true;
     }
 }

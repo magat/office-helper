@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -56,22 +57,40 @@ public class RequestService {
     @Transactional
     public long addRequest(RequestDTO req) {
         Request r = req.toRequest();
-        r.setAuthor(req.getAuthor().toAuthor());
         return requestDAO.addRequest(r);
     }
 
     @Transactional
-    public boolean proceedRequestWorkflow(long id) { //TODO : 2 SQL Requests for one task ?
+    public boolean proceedRequestWorkflow(long id) { //TODO : 2 SQL Requests for one task :/
         Request r = requestDAO.getRequest(id);
         Status currentStatus = r.getStatus();
         boolean dateRefreshed = false;
         if(currentStatus == Status.NEW) {
             currentStatus = Status.ORDERED;
-            dateRefreshed = requestDAO.refreshRequestOrderDate(id);
+            dateRefreshed = requestDAO.updateRequestOrderDate(id, new Date());
         }
         else if(currentStatus == Status.ORDERED) {
             currentStatus = Status.RECEIVED;
-            dateRefreshed = requestDAO.refreshRequestDeliveryDate(id);
+            dateRefreshed = requestDAO.updateRequestDeliveryDate(id, new Date());
+        }
+        if(dateRefreshed) {
+            return requestDAO.updateStatus(id, currentStatus);
+        }
+        return false;
+    }
+
+    @Transactional
+    public boolean revertRequestWorkflow(long id) { //TODO : 2 SQL Requests for one task :/
+        Request r = requestDAO.getRequest(id);
+        Status currentStatus = r.getStatus();
+        boolean dateRefreshed = false;
+        if(currentStatus == Status.RECEIVED) {
+            currentStatus = Status.ORDERED;
+            dateRefreshed = requestDAO.updateRequestDeliveryDate(id, null);
+        }
+        else if(currentStatus == Status.ORDERED) {
+            currentStatus = Status.NEW;
+            dateRefreshed = requestDAO.updateRequestOrderDate(id, null);
         }
         if(dateRefreshed) {
             return requestDAO.updateStatus(id, currentStatus);
