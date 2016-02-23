@@ -2,10 +2,10 @@
 $("#more_information").click(function () {
     if ($("#more_information_form").is(":hidden")) {
         $("#more_information_form").slideDown("slow");
-        $("#more_information").html("<span class='glyphicon glyphicon-remove' aria-hidden='true'></span> Add more information to your order...");
+        $("#more_information").html("<span class='glyphicon glyphicon-remove' aria-hidden='true'></span> Additional information ...");
     } else {
         $("#more_information_form").slideUp("slow");
-        $("#more_information").html("<span class='glyphicon glyphicon-plus' aria-hidden='true'></span> Add more information to your order...");
+        $("#more_information").html("<span class='glyphicon glyphicon-plus' aria-hidden='true'></span> Additional information ...");
     }
 });
 
@@ -157,5 +157,6 @@ $('form[id=sendRequest]').submit(function () {
 
 //Tooltip init.
 $(function () {
-    $('[data-toggle="tooltip"]').tooltip()
+    $('[data-toggle="tooltip"]').tooltip();
+    $('#deadlinepicker').datetimepicker({ format:"D/MM/YYYY" });
 })

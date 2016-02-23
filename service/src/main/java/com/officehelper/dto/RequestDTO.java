@@ -3,6 +3,7 @@ package com.officehelper.dto;
 import com.officehelper.entity.Request;
 import com.officehelper.entity.Status;
 import org.hibernate.validator.constraints.URL;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -20,6 +21,8 @@ public class RequestDTO {
     @NotNull @Size(min=3, max=255)
     private String title;
 
+    private Integer quantity;
+
     @URL
     private String url;
 
@@ -31,6 +34,9 @@ public class RequestDTO {
     private Date dateOrdered;
 
     private Date dateReceived;
+
+    @DateTimeFormat(pattern="dd/MM/yyyy")
+    private Date dateDeadline;
 
     @NotNull
     private AuthorDTO author;
@@ -52,6 +58,8 @@ public class RequestDTO {
             this.setTitle(req.getTitle());
             this.setUrl(req.getUrl());
             this.id = req.getId();
+            this.setQuantity(req.getQuantity());
+            this.setDateDeadline(req.getDateDeadline());
         }
     }
 
@@ -65,6 +73,8 @@ public class RequestDTO {
         req.setStatus(this.getStatus());
         req.setTitle(this.getTitle());
         req.setUrl(this.getUrl());
+        req.setQuantity(this.getQuantity());
+        req.setDateDeadline(this.getDateDeadline());
         return req;
     }
 
@@ -117,11 +127,38 @@ public class RequestDTO {
         return "";
     }
 
+    @Override
+    public String toString() {
+        return "RequestDTO{" +
+                "id=" + id +
+                ", dateCreated=" + dateCreated +
+                ", title='" + title + '\'' +
+                ", quantity=" + quantity +
+                ", url='" + url + '\'' +
+                ", status=" + status +
+                ", comments='" + comments + '\'' +
+                ", dateOrdered=" + dateOrdered +
+                ", dateReceived=" + dateReceived +
+                ", dateDeadline=" + dateDeadline +
+                ", author=" + author +
+                '}';
+    }
+
     public void setDateOrdered(Date dateOrdered) {
         this.dateOrdered = dateOrdered;
     }
 
     public Date getDateReceived() { return dateReceived; }
+
+    public String getDateReceivedToString() {
+        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL);
+        if (dateReceived != null) {
+            String date = dateFormat.format(dateReceived);
+            return date.substring(0, 1).toUpperCase() + date.substring(1);
+        }
+
+        return "";
+    }
 
     public void setDateReceived(Date dateReceived) { this.dateReceived = dateReceived; }
 
@@ -150,6 +187,31 @@ public class RequestDTO {
         this.dateCreated = dateCreated;
     }
 
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public Date getDateDeadline() {
+        return dateDeadline;
+    }
+
+    public String getDateDeadlineToString() {
+        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL);
+        if (dateDeadline != null) {
+            String date = dateFormat.format(dateDeadline);
+            return date.substring(0, 1).toUpperCase() + date.substring(1);
+        }
+        return "";
+    }
+
+    public void setDateDeadline(Date dateDeadline) {
+        this.dateDeadline = dateDeadline;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -162,42 +224,19 @@ public class RequestDTO {
         return id == that.id &&
                 Objects.equals(dateCreated, that.dateCreated) &&
                 Objects.equals(title, that.title) &&
+                Objects.equals(quantity, that.quantity) &&
                 Objects.equals(url, that.url) &&
                 status == that.status &&
                 Objects.equals(comments, that.comments) &&
                 Objects.equals(dateOrdered, that.dateOrdered) &&
                 Objects.equals(dateReceived, that.dateReceived) &&
+                Objects.equals(dateDeadline, that.dateDeadline) &&
                 Objects.equals(author, that.author);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, dateCreated, title, url, status, comments, dateOrdered, dateReceived, author);
-    }
-
-    public String getDateReceivedToString() {
-        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL);
-        if (dateReceived != null) {
-            String date = dateFormat.format(dateReceived);
-            return date.substring(0, 1).toUpperCase() + date.substring(1);
-        }
-
-        return "";
-    }
-
-    @Override
-    public String toString() {
-        return "RequestDTO{" +
-                "id=" + id +
-                ", dateCreated=" + dateCreated +
-                ", title='" + title + '\'' +
-                ", url='" + url + '\'' +
-                ", status=" + status +
-                ", comments='" + comments + '\'' +
-                ", dateOrdered=" + dateOrdered +
-                ", dateReceived=" + dateReceived +
-                ", author=" + author +
-                '}';
+        return Objects.hash(id, dateCreated, title, quantity, url, status, comments, dateOrdered, dateReceived, dateDeadline, author);
     }
 
 }

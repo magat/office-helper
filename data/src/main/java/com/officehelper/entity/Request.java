@@ -21,6 +21,8 @@ public class Request {
 
     private String title;
 
+    private Integer quantity;
+
     private String url;
 
     @Enumerated(EnumType.STRING)
@@ -33,6 +35,9 @@ public class Request {
 
     @Column(name = "date_received")
     private Date dateReceived;
+
+    @Column(name = "date_deadline")
+    private Date dateDeadline;
 
     @ManyToOne
     @Cascade({CascadeType.PERSIST, CascadeType.SAVE_UPDATE})
@@ -109,5 +114,21 @@ public class Request {
 
     public void setAuthor(Author author) {
         this.author = author;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public Date getDateDeadline() {
+        return dateDeadline;
+    }
+
+    public void setDateDeadline(Date dateDeadline) {
+        this.dateDeadline = dateDeadline;
     }
 }

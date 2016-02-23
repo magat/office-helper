@@ -37,11 +37,13 @@ CREATE TABLE request (
   id BIGSERIAL NOT NULL,
   date_created timestamp WITH time zone NOT NULL,
   title character varying(255) NOT NULL,
+  quantity INT,
   url character varying(255),
   status character varying(10) NOT NULL,
   comments text,
   date_ordered timestamp WITH time zone,
   date_received timestamp WITH time zone,
+  date_deadline timestamp WITH time zone,
   author BIGINT NOT NULL references author(id)
 );
 

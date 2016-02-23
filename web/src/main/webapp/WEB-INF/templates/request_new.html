@@ -4,8 +4,8 @@
     <title>Home - Office Helper</title>
     <meta charset="utf-8"/>
     <link th:href="@{/static/css/bootstrap.min.css}" href="../../static/css/bootstrap.min.css" rel="stylesheet">
-    <link th:href="@{/static/css/office_helper_template.css}" href="../../static/css/office_helper_template.css"
-          rel="stylesheet">
+    <link th:href="@{/static/css/bootstrap-datetimepicker.min.css}" href="../../static/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <link th:href="@{/static/css/office_helper_template.css}" href="../../static/css/office_helper_template.css" rel="stylesheet">
 </head>
 <body>
 
@@ -42,26 +42,32 @@
                 <thead>
                 <tr>
                     <th>Date of creation</th>
+                    <th>Deadline</th>
                     <th>Product</th>
+                    <th class="col-md-1">Quantity</th>
                     <th>Author</th>
-                    <th></th>
+                    <th class="col-md-1"></th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="request : ${requestList}" th:attr="data-id=${request.getId()}" class="request hover_container">
+                <tr th:each="request : ${requestList}" th:attr="data-id=${request.id}" class="request hover_container">
                     <td th:text="${request.getDateCreatedToString()}"></td>
 
+                    <td th:text="${request.getDateDeadlineToString()}"></td>
+
                     <td th:switch="${request.getUrl()}">
-                        <span th:case="''" th:text="${request.getTitle()}"></span>
-                        <a th:case="*" th:href="${request.getUrl()}" th:text="${request.getTitle()}" target="_blank"></a>
-                        <span th:switch="${request.getComments()}">
+                        <span th:case="''" th:text="${request.title}"></span>
+                        <a th:case="*" th:href="${request.url}" th:text="${request.title}" target="_blank"></a>
+                        <span th:switch="${request.comments}">
                             <i th:case="''"></i>
-                            <i th:case="*" class="glyphicon glyphicon-info-sign text-info" data-toggle="tooltip" data-placement="right" th:title="${request.getComments()}" id='example'></i>
+                            <i th:case="*" class="glyphicon glyphicon-info-sign text-info" data-toggle="tooltip" data-placement="right" th:title="${request.getComments()}"></i>
                         </span>
                     </td>
 
-                    <td><span th:text="${request.getAuthor().getFirstName()}"></span> <span
-                            th:text="${request.getAuthor().getLastName()}"></span></td>
+                    <td th:text="${request.quantity}"></td>
+
+                    <td><span th:text="${request.author.firstName}"></span> <span th:text="${request.author.lastName}"></span></td>
+
                     <td class="hidden_element">
                         <a href="#" class="proceed_workflow"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></a>
                         <a href="#" class="refuse_request"><span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span></a>
@@ -72,13 +78,22 @@
                 <tfoot>
                 <tr>
                     <td>Just now</td>
-                    <td><input class="form-control" type="text" placeholder="Product" th:object="${request}" th:field="*{title}" required></td>
-                    <td><input class="form-control" type="text" placeholder="Your name" th:object="${author}" th:field="*{firstName}" required></td>
+                    <td>
+                        <div id="deadlinepicker" class="input-group date">
+                            <input type="date" class="form-control" id="deadline" placeholder="Deadline" th:object="${request}" th:field="*{dateDeadline}">
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                        </div>
+                    </td>
+                    <td><input class="form-control" type="text" placeholder="Product*" th:object="${request}" th:field="*{title}" required></td>
+                    <td><input class="form-control" type="number" placeholder="Qty." th:object="${request}" th:field="*{quantity}"></td>
+                    <td><input class="form-control" type="text" placeholder="Your name*" th:object="${author}" th:field="*{firstName}" required></td>
                     <td><input class="btn btn-success" type="submit"></td>
                 </tr>
                 <tr>
-                    <td colspan="4">
-                        <p><a href="#" id="more_information"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add more information to your order...</a></p>
+                    <td colspan="6">
+                        <p><a href="#" id="more_information"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Additional information ...</a></p>
                         <div id="more_information_form">
                             <div class="form-group">
                                 <label for="url">Url</label>
@@ -102,6 +117,8 @@
 <!-- Scripts Inclusions -->
 <script th:src="@{/static/js/jquery.js}" src="../../static/js/jquery.js"></script>
 <script th:src="@{/static/js/bootstrap.min.js}" src="../../static/js/bootstrap.min.js"></script>
+<script th:src="@{/static/js/moment.js}" src="../../static/js/moment.js"></script>
+<script th:src="@{/static/js/bootstrap-datetimepicker.min.js}" src="../../static/js/bootstrap-datetimepicker.min.js"></script>
 <script th:src="@{/static/js/request_list_controller.js}" src="../../static/js/request_list_controller.js"></script>
 </body>
 </html>
