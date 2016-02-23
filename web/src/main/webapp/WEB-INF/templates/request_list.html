@@ -48,8 +48,8 @@
             <tbody>
                 <tr th:each="request : ${requestList}">
                     <td th:text="${request.getDateCreatedToString()}"></td>
-                    <td th:text="${request.getTitle()}"></td>
-                    <td><span th:text="${request.getAuthor().getFirstName()}"></span> <span th:text="${request.getAuthor().getLastName()}"></span></td>
+                    <td th:text="${request.title}"></td>
+                    <td><span th:text="${request.author.firstName}"></span> <span th:text="${request.author.lastName}"></span></td>
                     <td>
                         <a href="#"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></a>
                         <a href="#" class="text-danger"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
