@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 class RequestController {
@@ -27,7 +28,25 @@ class RequestController {
         model.addAttribute("requestList", reqService.getNewRequests());
         model.addAttribute("request", new RequestDTO());
         model.addAttribute("author", new AuthorDTO());
-        return "request_list.html";
+        return "request_new.html";
+    }
+
+    @RequestMapping(value = "/request/ordered", method = RequestMethod.GET)
+    @ResponseBody
+    public List<RequestDTO> orderedRequests(Model model) {
+        return reqService.getOrderedRequests();
+    }
+
+    @RequestMapping(value = "/request/received", method = RequestMethod.GET)
+    @ResponseBody
+    public List<RequestDTO> receivedRequests(Model model) {
+        return reqService.getReceivedRequests();
+    }
+
+    @RequestMapping(value = "/request/archived", method = RequestMethod.GET)
+    @ResponseBody
+    public List<RequestDTO> archivedRequests(Model model) {
+        return reqService.getArchivedRequests();
     }
 
     @RequestMapping(value = "/request/add", method = RequestMethod.POST)

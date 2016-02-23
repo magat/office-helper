@@ -31,6 +31,9 @@ public class Request {
     @Column(name = "date_ordered")
     private Date dateOrdered;
 
+    @Column(name = "date_received")
+    private Date dateReceived;
+
     @ManyToOne
     @Cascade({CascadeType.PERSIST, CascadeType.SAVE_UPDATE})
     @JoinColumn(name = "author", nullable = false)
@@ -90,6 +93,14 @@ public class Request {
 
     public void setDateOrdered(Date dateOrdered) {
         this.dateOrdered = dateOrdered;
+    }
+
+    public Date getDateReceived() {
+        return dateReceived;
+    }
+
+    public void setDateReceived(Date dateReceived) {
+        this.dateReceived = dateReceived;
     }
 
     public Author getAuthor() {

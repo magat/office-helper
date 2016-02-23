@@ -30,6 +30,8 @@ public class RequestDTO {
 
     private Date dateOrdered;
 
+    private Date dateReceived;
+
     @NotNull
     private AuthorDTO author;
 
@@ -117,6 +119,10 @@ public class RequestDTO {
         this.dateOrdered = dateOrdered;
     }
 
+    public Date getDateReceived() { return dateReceived; }
+
+    public void setDateReceived(Date dateReceived) { this.dateReceived = dateReceived; }
+
     public AuthorDTO getAuthor() {
         return author;
     }
@@ -142,21 +148,6 @@ public class RequestDTO {
         this.dateCreated = dateCreated;
     }
 
-
-    @Override
-    public String toString() {
-        return "RequestDTO{" +
-                "id=" + id +
-                ", dateCreated=" + dateCreated +
-                ", title='" + title + '\'' +
-                ", url='" + url + '\'' +
-                ", status='" + status + '\'' +
-                ", comments='" + comments + '\'' +
-                ", dateOrdered=" + dateOrdered +
-                ", author='" + author + '\'' +
-                '}';
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -170,14 +161,41 @@ public class RequestDTO {
                 Objects.equals(dateCreated, that.dateCreated) &&
                 Objects.equals(title, that.title) &&
                 Objects.equals(url, that.url) &&
-                Objects.equals(status, that.status) &&
+                status == that.status &&
                 Objects.equals(comments, that.comments) &&
                 Objects.equals(dateOrdered, that.dateOrdered) &&
+                Objects.equals(dateReceived, that.dateReceived) &&
                 Objects.equals(author, that.author);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, dateCreated, title, url, status, comments, dateOrdered, author);
+        return Objects.hash(id, dateCreated, title, url, status, comments, dateOrdered, dateReceived, author);
     }
+
+    public String getDateReceivedToString() {
+        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL);
+        if (dateReceived != null) {
+            String date = dateFormat.format(dateReceived);
+            return date.substring(0, 1).toUpperCase() + date.substring(1);
+        }
+
+        return "";
+    }
+
+    @Override
+    public String toString() {
+        return "RequestDTO{" +
+                "id=" + id +
+                ", dateCreated=" + dateCreated +
+                ", title='" + title + '\'' +
+                ", url='" + url + '\'' +
+                ", status=" + status +
+                ", comments='" + comments + '\'' +
+                ", dateOrdered=" + dateOrdered +
+                ", dateReceived=" + dateReceived +
+                ", author=" + author +
+                '}';
+    }
+
 }

@@ -1,3 +1,7 @@
+# What is Office Helper ?
+ 
+...  
+
 # Installation
 
 In order to launch the application, you need to :
@@ -37,6 +41,7 @@ CREATE TABLE request (
   status character varying(10) NOT NULL,
   comments text,
   date_ordered timestamp WITH time zone,
+  date_received timestamp WITH time zone,
   author BIGINT NOT NULL references author(id)
 );
 

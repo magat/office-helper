@@ -8,6 +8,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -29,15 +30,29 @@ public class RequestDAO {
 
     public List<Request> getOrderedRequests() {
         Session hibernateSession = sessionFactory.getCurrentSession();
-        Query query = hibernateSession.createQuery("from Request where status=:orderedStatus order by dateCreated");
+        Query query = hibernateSession.createQuery("from Request where status=:orderedStatus order by dateOrdered desc");
         query.setParameter("orderedStatus",Status.ORDERED);
         return query.list();
     }
 
-    public List<Request> getReceivedRequests() {
+    public List<Request> getReceivedRequests() { //TODO : Some logic should be in the service ?
         Session hibernateSession = sessionFactory.getCurrentSession();
-        Query query = hibernateSession.createQuery("from Request where status=:receivedStatus order by dateReceived");
+        Query query = hibernateSession.createQuery("from Request where status=:receivedStatus and dateReceived>=:sevenDaysAgo order by dateReceived");
         query.setParameter("receivedStatus",Status.RECEIVED);
+        //Seven days ago ... TODO : Java8 LocalDateTime
+        long DAY_IN_MS = 1000 * 60 * 60 * 24;
+        query.setDate("sevenDaysAgo", new Date(System.currentTimeMillis() - (7 * DAY_IN_MS)));
+        return query.list();
+    }
+
+    public List<Request> getArchivedRequests() { //TODO : Some logic should be in the service ?
+        Session hibernateSession = sessionFactory.getCurrentSession();
+        Query query = hibernateSession.createQuery("from Request where status=:refusedStatus or status=:receivedStatus and dateReceived<:sevenDaysAgo order by dateCreated");
+        query.setParameter("refusedStatus",Status.REFUSED);
+        query.setParameter("receivedStatus",Status.RECEIVED);
+        //Seven days ago ... TODO : Java8 LocalDateTime
+        long DAY_IN_MS = 1000 * 60 * 60 * 24;
+        query.setDate("sevenDaysAgo", new Date(System.currentTimeMillis() - (7 * DAY_IN_MS)));
         return query.list();
     }
 
@@ -70,6 +85,26 @@ public class RequestDAO {
             return false;
         }
         r.setStatus(status);
+        return true;
+    }
+
+    public boolean refreshRequestOrderDate(long id) {
+        Session hibernateSession = sessionFactory.getCurrentSession();
+        Request r = hibernateSession.get(Request.class, id);
+        if(r == null) {
+            return false;
+        }
+        r.setDateOrdered(new Date());
+        return true;
+    }
+
+    public boolean refreshRequestDeliveryDate(long id) {
+        Session hibernateSession = sessionFactory.getCurrentSession();
+        Request r = hibernateSession.get(Request.class, id);
+        if(r == null) {
+            return false;
+        }
+        r.setDateReceived(new Date());
         return true;
     }
 }

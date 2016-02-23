@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Submitted orders - Office Helper</title>
+    <meta charset="utf-8"/>
+    <link th:href="@{/static/css/bootstrap.min.css}" href="../../static/css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{/static/css/office_helper_template.css}" href="../../static/css/office_helper_template.css"
+          rel="stylesheet">
+</head>
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Office Helper</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">New orders</a></li>
+                <li><a href="#">Ordered</a></li>
+                <li><a href="#">Received</a></li>
+                <li><a href="#about">Archives</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+
+    <div class="starter-template">
+        <h1>Submitted orders</h1>
+        <p>Here are listed the new orders submitted, but not received.</p>
+        <form id="sendRequest" method="post" th:action="@{/request/add}">
+            <table class="table table-hover" id="request_tab">
+                <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Product</th>
+                    <th>Author</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="request : ${requestList}" th:attr="data-id=${request.getId()}" class="request hover_container">
+                    <td th:text="${request.getDateCreatedToString()}"></td>
+
+                    <td th:switch="${request.getUrl()}">
+                        <span th:case="''" th:text="${request.getTitle()}"></span>
+                        <a th:case="*" th:href="${request.getUrl()}" th:text="${request.getTitle()}" target="_blank"></a>
+                        <span th:switch="${request.getComments()}">
+                            <i th:case="''"></i>
+                            <i th:case="*" class="glyphicon glyphicon-info-sign text-info" data-toggle="tooltip" data-placement="right" th:title="${request.getComments()}" id='example'></i>
+                        </span>
+                    </td>
+
+                    <td><span th:text="${request.getAuthor().getFirstName()}"></span> <span
+                            th:text="${request.getAuthor().getLastName()}"></span></td>
+                    <td class="hidden_element">
+                        <a href="#" class="proceed_workflow"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></a>
+                        <a href="#" class="refuse_request"><span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span></a>
+                        <a href="#" class="text-danger delete_request"><span class="glyphicon glyphicon-erase" aria-hidden="true"></span></a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+
+</div>
+
+<!-- Scripts Inclusions -->
+<script th:src="@{/static/js/jquery.js}" src="../../static/js/jquery.js"></script>
+<script th:src="@{/static/js/bootstrap.min.js}" src="../../static/js/bootstrap.min.js"></script>
+<script th:src="@{/static/js/request_list_controller.js}" src="../../static/js/request_list_controller.js"></script>
+</body>
+</html>

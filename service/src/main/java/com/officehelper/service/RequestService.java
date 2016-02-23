@@ -30,6 +30,24 @@ public class RequestService {
     }
 
     @Transactional(readOnly = true)
+    public List<RequestDTO> getOrderedRequests() {
+        List<Request> rList = requestDAO.getOrderedRequests();
+        return rList.stream().map(RequestDTO::new).collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<RequestDTO> getReceivedRequests() {
+        List<Request> rList = requestDAO.getReceivedRequests();
+        return rList.stream().map(RequestDTO::new).collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<RequestDTO> getArchivedRequests() {
+        List<Request> rList = requestDAO.getArchivedRequests();
+        return rList.stream().map(RequestDTO::new).collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
     public RequestDTO getRequest(long id) {
         Request req = requestDAO.getRequest(id);
         return new RequestDTO(req);
@@ -43,16 +61,22 @@ public class RequestService {
     }
 
     @Transactional
-    public boolean proceedRequestWorkflow(long id) {
+    public boolean proceedRequestWorkflow(long id) { //TODO : 2 SQL Requests for one task ?
         Request r = requestDAO.getRequest(id);
         Status currentStatus = r.getStatus();
+        boolean dateRefreshed = false;
         if(currentStatus == Status.NEW) {
             currentStatus = Status.ORDERED;
+            dateRefreshed = requestDAO.refreshRequestOrderDate(id);
         }
         else if(currentStatus == Status.ORDERED) {
             currentStatus = Status.RECEIVED;
+            dateRefreshed = requestDAO.refreshRequestDeliveryDate(id);
         }
-        return requestDAO.updateStatus(id,currentStatus);
+        if(dateRefreshed) {
+            return requestDAO.updateStatus(id, currentStatus);
+        }
+        return false;
     }
 
     @Transactional
