@@ -41,7 +41,8 @@
             <table class="table table-hover" id="request_tab">
                 <thead>
                 <tr>
-                    <th>Date</th>
+                    <th>Date of delivery</th>
+                    <th>Date of order</th>
                     <th>Product</th>
                     <th>Author</th>
                     <th></th>
@@ -49,7 +50,9 @@
                 </thead>
                 <tbody>
                 <tr th:each="request : ${requestList}" th:attr="data-id=${request.getId()}" class="request hover_container">
-                    <td th:text="${request.getDateCreatedToString()}"></td>
+                    <td th:text="${request.getDateReceivedToString()}"></td>
+
+                    <td th:text="${request.getDateOrderedToString()}"></td>
 
                     <td th:switch="${request.getUrl()}">
                         <span th:case="''" th:text="${request.getTitle()}"></span>
