@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Home - Office Helper</title>
+    <meta charset="utf-8"/>
+    <link th:href="@{/static/css/bootstrap.min.css}" href="../../static/css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{/static/css/office_helper_template.css}" href="../../static/css/office_helper_template.css" rel="stylesheet">
+</head>
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Office Helper</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">New orders</a></li>
+                <li><a href="#">Accepted</a></li>
+                <li><a href="#">Received</a></li>
+                <li><a href="#about">Archives</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+
+    <div class="starter-template">
+        <h1>List of orders</h1>
+        <p>Here is the list of the current orders</p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Product</th>
+                    <th>Author</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="request : ${requestList}">
+                    <td th:text="${request.getDateCreatedToString()}"></td>
+                    <td th:text="${request.title}"></td>
+                    <td><span th:text="${request.author.firstName}"></span> <span th:text="${request.author.lastName}"></span></td>
+                    <td>
+                        <a href="#"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></a>
+                        <a href="#" class="text-danger"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <form>
+                    <tr>
+                        <td colspan="3"><input class="form-control" type="text" placeholder="Product" required="true"></td>
+                        <td><input class="btn btn-success" type="submit"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <p><a href="#" id="more_information"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add more information to your order...</a></p>
+                            <div id="more_information_form">
+                                <div class="form-group">
+                                    <label for="url">Article</label>
+                                    <input type="url" class="form-control" id="url" name="url" placeholder="Url">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="comments">Comments</label>
+                                    <textarea class="form-control" id="comments" name="comments" rows="3"></textarea>
+                                </div>
+
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" value="">
+                                        Important order
+                                    </label>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </form>
+            </tfoot>
+        </table>
+    </div>
+
+</div>
+
+<!-- Scripts Inclusions -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script th:src="@{/static/js/bootstrap.min.js}" src="../../static/js/bootstrap.min.js"></script>
+<script th:src="@{/static/js/animations.js}" src="../../static/js/animations.js"></script>
+</body>
+</html>

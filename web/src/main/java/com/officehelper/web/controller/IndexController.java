@@ -5,16 +5,15 @@ import com.officehelper.dto.RequestDTO;
 import com.officehelper.service.AuthorService;
 import com.officehelper.service.RequestService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import java.util.Date;
 import java.util.List;
 
 @Controller
-class IndexController {
+public class IndexController {
 
     @Inject
     RequestService reqService;
@@ -22,12 +21,45 @@ class IndexController {
     @Inject
     AuthorService authorService;
 
-    //TODO : TO REMOVE, FOR TESTING PURPOSES ONLY
-    @SuppressWarnings("SameReturnValue")
+    //First Thymeleaf implementation :)
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    @ResponseBody
-    public List<RequestDTO> showIndex() {
-        return reqService.getRequestList();
+    public String index(Model model) {
+        model.addAttribute("recipient", "World");
+        return "index.html";
+    }
+
+    @RequestMapping(value = "/request", method = RequestMethod.GET)
+    public String getRequestList(Model model) {
+        model.addAttribute("requestList", reqService.getRequestList());
+        return "request_list.html";
+    }
+
+    @RequestMapping(value = "/request/add", method = RequestMethod.POST)
+    public String addRequest(Model model,
+                             @RequestParam("first_name") String firstName,
+                             @RequestParam("last_name") String lastName,
+                             @RequestParam("email") String email,
+                             @RequestParam("title") String title,
+                             @RequestParam("url") String url,
+                             @RequestParam("comments") String comments) {
+        AuthorDTO author = new AuthorDTO();
+        author.setEmail(email);
+        author.setFirstName(firstName);
+        author.setLastName(lastName);
+        RequestDTO request = new RequestDTO();
+        request.setAuthor(author);
+        request.setComments(comments);
+        request.setTitle(title);
+        request.setUrl(url);
+        request.setDateCreated(new Date());
+        request.setStatus("Pending");
+        long reqId = reqService.addRequest(request);
+        return "request_list.html";
+    }
+
+    @RequestMapping(value = "/request/add", method = RequestMethod.GET)
+    public String addRequestForm(Model model) {
+        return "request_add_form.html";
     }
 
     //TODO : TO REMOVE, FOR TESTING PURPOSES ONLY
@@ -77,11 +109,5 @@ class IndexController {
     @ResponseBody
     public List<AuthorDTO> getAuthorList() {
         return authorService.getAuthorList();
-    }
-
-    @RequestMapping(value = "/request", method = RequestMethod.GET)
-    @ResponseBody
-    public List<RequestDTO> getRequestList() {
-        return reqService.getRequestList();
     }
 }
