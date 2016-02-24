@@ -1,3 +1,7 @@
+function upperCaseFirstLetter(s) {
+    return s.charAt(0).toUpperCase() + s.substring(1);
+}
+
 //Animation to hide/display 'more_information' form
 $("#more_information").click(function () {
     if ($("#more_information_form").is(":hidden")) {
@@ -110,22 +114,38 @@ $('form[id=sendRequest]').submit(function () {
         success: function (response) {
             console.log(response);
             if (response.status != "SUCCESS") {
+
                 var errors = response.errorMessageList;
-                for (var i = 0; i < errors.length; i++) {
+                for (var i = 0; i < errors.length; i++) { //List errors
                     var field = errors[i].field;
                     var element = $('input[name=' + field + ']');
                     var tooltipOptions = {
                         title: errors[i].defaultMessage,
                         delay: {"show": 500, "hide": 100}
                     };
+
+                    //Display the error tooltips
                     element.tooltip(tooltipOptions);
                     element.tooltip('show');
                 }
             }
             else {
                 var content = "";
+
+                //Format deadline display
+                var deadline = $('input[name=dateDeadline]').val();
+                deadline = upperCaseFirstLetter(moment(deadline, "DD/MM/YYYY").format("dddd D MMMM YYYY"));
+
+                //Generate a new row
                 content = content.concat("<tr class='hover_container'>");
-                content = content.concat("<td>Just Now</td>");
+
+                //Current date
+                content = content.concat("<td>" + upperCaseFirstLetter(moment().format("dddd D MMMM YYYY")) + "</td>");
+
+                //Deadline
+                content = content.concat("<td>" + deadline + "</td>");
+
+                //Product info
                 if ($('input[name=url]').val() != "") {
                     content = content.concat("<td><a href='" + $('input[name=url]').val() + "' target='_blank'>" + $('input[name=title]').val() + "</a> ");
                 }
@@ -136,14 +156,25 @@ $('form[id=sendRequest]').submit(function () {
                     content = content.concat('<i class="glyphicon glyphicon-info-sign text-info" data-toggle="tooltip" data-placement="right" title="' + $('#comments').val() + '"></i>');
                 }
                 content = content.concat("</td>");
+
+                //Quantity
+                content = content.concat("<td>" + $('input[name=quantity]').val() + "</td>");
+
+                //Author
                 content = content.concat("<td>" + $('input[name=firstName]').val() + "</td>");
+
+                //Disabled controls
                 content = content.concat("<td class='hidden_element'>");
                 content = content.concat("<span class='glyphicon glyphicon-ok text-muted' aria-hidden='true'></span> ");
                 content = content.concat("<span class='glyphicon glyphicon-ban-circle text-muted' aria-hidden='true'></span> ");
                 content = content.concat("<span class='glyphicon glyphicon-erase text-muted' aria-hidden='true'></span>");
                 content = content.concat("</td>");
                 content = content.concat("</tr>");
+
+                //Add the row to the DOM
                 $("#request_tab tbody").append(content);
+
+                //Reset form
                 form.trigger("reset");
             }
         },
@@ -152,11 +183,13 @@ $('form[id=sendRequest]').submit(function () {
         },
         dataType: 'json'
     });
-    return false; // prevent default action
+    return false; // prevent default form action
 });
 
-//Tooltip init.
+//Page init.
 $(function () {
-    $('[data-toggle="tooltip"]').tooltip();
-    $('#deadlinepicker').datetimepicker({ format:"D/MM/YYYY" });
+    moment.locale("fr"); //Locale for date
+    $('[data-toggle="tooltip"]').tooltip(); //Init. Tooltips
+    $('#deadlinepicker').datetimepicker({ format:"D/MM/YYYY" }); //Init date format
+    $(".date-now").html(upperCaseFirstLetter(moment().format("dddd D MMMM YYYY"))); //Init "now" date
 })
