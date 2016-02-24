@@ -42,7 +42,7 @@
                 <thead>
                 <tr>
                     <th>Date of creation</th>
-                    <th>Deadline</th>
+                    <th class="col-md-2">Deadline</th>
                     <th>Product</th>
                     <th class="col-md-1">Quantity</th>
                     <th>Author</th>
@@ -68,10 +68,12 @@
 
                     <td><span th:text="${request.author.firstName}"></span> <span th:text="${request.author.lastName}"></span></td>
 
-                    <td class="hidden_element">
-                        <a href="#" class="proceed_workflow"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></a>
-                        <a href="#" class="refuse_request"><span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span></a>
-                        <a href="#" class="text-danger delete_request"><span class="glyphicon glyphicon-erase" aria-hidden="true"></span></a>
+                    <td>
+                        <span class="hidden_element">
+                            <a href="#" class="proceed_workflow"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></a>
+                            <a href="#" class="refuse_request"><span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span></a>
+                            <a href="#" class="text-danger delete_request"><span class="glyphicon glyphicon-erase" aria-hidden="true"></span></a>
+                        </span>
                     </td>
                 </tr>
                 </tbody>
@@ -80,7 +82,7 @@
                     <td class="date-now">Just now</td>
                     <td>
                         <div id="deadlinepicker" class="input-group date">
-                            <input type="date" class="form-control" id="deadline" placeholder="Deadline" th:object="${request}" th:field="*{dateDeadline}">
+                            <input type="text" class="form-control" id="deadline" placeholder="Deadline" th:object="${request}" th:field="*{dateDeadline}">
                                 <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-calendar"></span>
                                 </span>

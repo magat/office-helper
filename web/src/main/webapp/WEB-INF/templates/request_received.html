@@ -36,43 +36,50 @@
 
     <div class="starter-template">
         <h1>Orders delivered</h1>
-        <p>On this page are listed the orders which just arrived (less than a week) :</p>
-        <form id="sendRequest" method="post" th:action="@{/request/add}">
-            <table class="table table-hover" id="request_tab">
-                <thead>
-                <tr>
-                    <th>Date of delivery</th>
-                    <th>Date of order</th>
-                    <th>Product</th>
-                    <th>Author</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="request : ${requestList}" th:attr="data-id=${request.getId()}" class="request hover_container">
-                    <td th:text="${request.getDateReceivedToString()}"></td>
+        <p>Here are listed the orders which arrived the last seven days :</p>
+        <table class="table table-hover" id="request_tab">
+            <thead>
+            <tr>
+                <th>Date of order</th>
+                <th>Date of delivery</th>
+                <th>Deadline</th>
+                <th>Product</th>
+                <th class="col-md-1">Quantity</th>
+                <th>Author</th>
+                <th class="col-md-1"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="request : ${requestList}" th:attr="data-id=${request.id}" class="request hover_container">
+                <td th:text="${request.getDateOrderedToString()}"></td>
 
-                    <td th:text="${request.getDateOrderedToString()}"></td>
+                <td th:text="${request.getDateReceivedToString()}"></td>
 
-                    <td th:switch="${request.getUrl()}">
-                        <span th:case="''" th:text="${request.getTitle()}"></span>
-                        <a th:case="*" th:href="${request.getUrl()}" th:text="${request.getTitle()}" target="_blank"></a>
-                        <span th:switch="${request.getComments()}">
-                            <i th:case="''"></i>
-                            <i th:case="*" class="glyphicon glyphicon-info-sign text-info" data-toggle="tooltip" data-placement="right" th:title="${request.getComments()}" id='example'></i>
-                        </span>
-                    </td>
+                <td th:text="${request.getDateDeadlineToString()}"></td>
 
-                    <td><span th:text="${request.getAuthor().getFirstName()}"></span> <span
-                            th:text="${request.getAuthor().getLastName()}"></span></td>
-                    <td class="hidden_element">
+                <td th:switch="${request.url}">
+                    <span th:case="''" th:text="${request.title}"></span>
+                    <a th:case="*" th:href="${request.url}" th:text="${request.title}" target="_blank"></a>
+                    <span th:switch="${request.comments}">
+                        <i th:case="''"></i>
+                        <i th:case="*" class="glyphicon glyphicon-info-sign text-info" data-toggle="tooltip" data-placement="right" th:title="${request.getComments()}" id='example'></i>
+                    </span>
+                </td>
+
+                <td th:text="${request.quantity}"></td>
+
+                <td><span th:text="${request.author.firstName}"></span> <span
+                        th:text="${request.author.lastName}"></span></td>
+
+                <td>
+                    <span class="hidden_element">
                         <a href="#" class="revert_workflow"><span class="glyphicon glyphicon-backward" aria-hidden="true"></span></a>
                         <a href="#" class="text-danger delete_request"><span class="glyphicon glyphicon-erase" aria-hidden="true"></span></a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </form>
+                    </span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 
 </div>
@@ -80,6 +87,8 @@
 <!-- Scripts Inclusions -->
 <script th:src="@{/static/js/jquery.js}" src="../../static/js/jquery.js"></script>
 <script th:src="@{/static/js/bootstrap.min.js}" src="../../static/js/bootstrap.min.js"></script>
+<script th:src="@{/static/js/moment.js}" src="../../static/js/moment.js"></script>
+<script th:src="@{/static/js/bootstrap-datetimepicker.min.js}" src="../../static/js/bootstrap-datetimepicker.min.js"></script>
 <script th:src="@{/static/js/request_list_controller.js}" src="../../static/js/request_list_controller.js"></script>
 </body>
 </html>

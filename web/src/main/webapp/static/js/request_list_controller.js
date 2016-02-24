@@ -42,22 +42,25 @@ $(".refuse_request").click(function () {
     var request = $(this).closest(".request");
     var id = request.attr("data-id");
     var url = id + "/refuse";
-    $.ajax({
-        type: "GET",
-        url: url,
-        success: function (response) {
-            if (response.status != "SUCCESS") {
-                alert("Error : The order couldn't be aborted.");
-            }
-            else {
-                request.remove();
-            }
-        },
-        error: function () {
-            alert("An unexpected error occurred. Please contact an administrator.");
-        },
-        dataType: 'json'
-    });
+    var confirmation = confirm("Do you really want to refuse this order ?");
+    if(confirmation) {
+        $.ajax({
+            type: "GET",
+            url: url,
+            success: function (response) {
+                if (response.status != "SUCCESS") {
+                    alert("Error : The order couldn't be aborted.");
+                }
+                else {
+                    request.remove();
+                }
+            },
+            error: function () {
+                alert("An unexpected error occurred. Please contact an administrator.");
+            },
+            dataType: 'json'
+        });
+    }
 })
 
 $(".proceed_workflow").click(function () {
@@ -112,7 +115,6 @@ $('form[id=sendRequest]').submit(function () {
         url: form.attr('action'),
         data: data,
         success: function (response) {
-            console.log(response);
             if (response.status != "SUCCESS") {
 
                 var errors = response.errorMessageList;
