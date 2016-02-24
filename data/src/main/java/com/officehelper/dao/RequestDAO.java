@@ -30,14 +30,14 @@ public class RequestDAO {
 
     public List<Request> getOrderedRequests() {
         Session hibernateSession = sessionFactory.getCurrentSession();
-        Query query = hibernateSession.createQuery("from Request where status=:orderedStatus order by dateOrdered desc");
+        Query query = hibernateSession.createQuery("from Request where status=:orderedStatus order by dateCreated");
         query.setParameter("orderedStatus",Status.ORDERED);
         return query.list();
     }
 
     public List<Request> getReceivedRequests() { //TODO : Some logic should be in the service ?
         Session hibernateSession = sessionFactory.getCurrentSession();
-        Query query = hibernateSession.createQuery("from Request where status=:receivedStatus and dateReceived>=:sevenDaysAgo order by dateReceived");
+        Query query = hibernateSession.createQuery("from Request where status=:receivedStatus and dateReceived>=:sevenDaysAgo order by dateOrdered");
         query.setParameter("receivedStatus",Status.RECEIVED);
         //Seven days ago ... TODO : Java8 LocalDateTime
         long DAY_IN_MS = 1000 * 60 * 60 * 24;
@@ -47,7 +47,7 @@ public class RequestDAO {
 
     public List<Request> getArchivedRequests() { //TODO : Some logic should be in the service ?
         Session hibernateSession = sessionFactory.getCurrentSession();
-        Query query = hibernateSession.createQuery("from Request where status=:refusedStatus or status=:receivedStatus and dateReceived<:sevenDaysAgo order by dateCreated");
+        Query query = hibernateSession.createQuery("from Request where status=:refusedStatus or (status=:receivedStatus and dateReceived<:sevenDaysAgo) order by dateCreated desc");
         query.setParameter("refusedStatus",Status.REFUSED);
         query.setParameter("receivedStatus",Status.RECEIVED);
         //Seven days ago ... TODO : Java8 LocalDateTime
@@ -88,6 +88,7 @@ public class RequestDAO {
         return true;
     }
 
+    //TODO : Tests
     public boolean updateRequestOrderDate(long id, Date date) {
         Session hibernateSession = sessionFactory.getCurrentSession();
         Request r = hibernateSession.get(Request.class, id);
@@ -98,6 +99,7 @@ public class RequestDAO {
         return true;
     }
 
+    //TODO : Tests
     public boolean updateRequestDeliveryDate(long id, Date date) {
         Session hibernateSession = sessionFactory.getCurrentSession();
         Request r = hibernateSession.get(Request.class, id);

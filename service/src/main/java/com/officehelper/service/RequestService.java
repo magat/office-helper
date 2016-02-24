@@ -24,24 +24,28 @@ public class RequestService {
         return rList.stream().map(RequestDTO::new).collect(Collectors.toList());
     }
 
+    //TODO : Tests
     @Transactional(readOnly = true)
     public List<RequestDTO> getNewRequests() {
         List<Request> rList = requestDAO.getNewRequests();
         return rList.stream().map(RequestDTO::new).collect(Collectors.toList());
     }
 
+    //TODO : Tests
     @Transactional(readOnly = true)
     public List<RequestDTO> getOrderedRequests() {
         List<Request> rList = requestDAO.getOrderedRequests();
         return rList.stream().map(RequestDTO::new).collect(Collectors.toList());
     }
 
+    //TODO : Tests
     @Transactional(readOnly = true)
     public List<RequestDTO> getReceivedRequests() {
         List<Request> rList = requestDAO.getReceivedRequests();
         return rList.stream().map(RequestDTO::new).collect(Collectors.toList());
     }
 
+    //TODO : Tests
     @Transactional(readOnly = true)
     public List<RequestDTO> getArchivedRequests() {
         List<Request> rList = requestDAO.getArchivedRequests();
@@ -60,6 +64,7 @@ public class RequestService {
         return requestDAO.addRequest(r);
     }
 
+    //TODO : Tests
     @Transactional
     public boolean proceedRequestWorkflow(long id) { //TODO : 2 SQL Requests for one task :/
         Request r = requestDAO.getRequest(id);
@@ -79,6 +84,7 @@ public class RequestService {
         return false;
     }
 
+    //TODO : Tests
     @Transactional
     public boolean revertRequestWorkflow(long id) { //TODO : 2 SQL Requests for one task :/
         Request r = requestDAO.getRequest(id);
@@ -98,6 +104,7 @@ public class RequestService {
         return false;
     }
 
+    //TODO : Tests
     @Transactional
     public boolean refuseRequest(long id) {
         return requestDAO.updateStatus(id,Status.REFUSED);
