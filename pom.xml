@@ -7,12 +7,13 @@
     <groupId>com.officehelper</groupId>
     <artifactId>office-helper</artifactId>
     <packaging>pom</packaging>
-    <version>${office.helper.version}</version>
+    <version>1.0</version>
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.5.1</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
@@ -28,7 +29,7 @@
     </modules>
 
     <properties>
-        <office.helper.version>1.0-SNAPSHOT</office.helper.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring.version>4.2.4.RELEASE</spring.version>
         <hibernate.version>5.0.7.Final</hibernate.version>
         <javax.servlet.version>3.0.1</javax.servlet.version>
@@ -121,7 +122,7 @@
             <dependency>
                 <groupId>com.officehelper</groupId>
                 <artifactId>service</artifactId>
-                <version>${office.helper.version}</version>
+                <version>1.0</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
@@ -131,7 +132,7 @@
             <dependency>
                 <groupId>com.officehelper</groupId>
                 <artifactId>data</artifactId>
-                <version>${office.helper.version}</version>
+                <version>1.0</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>

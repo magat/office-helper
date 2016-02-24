@@ -5,7 +5,7 @@
     <parent>
         <artifactId>office-helper</artifactId>
         <groupId>com.officehelper</groupId>
-        <version>${office.helper.version}</version>
+        <version>1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
