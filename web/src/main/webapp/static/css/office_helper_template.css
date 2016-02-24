@@ -17,3 +17,27 @@ body {
 .hover_container:hover .hidden_element {
     visibility: visible;
 }
+
+.navbar-inverse {
+    background-color:#1563a3;
+}
+
+.navbar-inverse .navbar-brand {
+    color:#ffffff;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+    color:#ffffff;
+}
+
+.navbar-inverse .navbar-nav > li:hover {
+    background-color:#4495d8;
+}
+
+.navbar-inverse .navbar-nav > .active > a {
+    background-color:#1563a3;
+}
+
+.navbar-inverse .navbar-nav > .active > a:hover {
+    background-color:#4495d8;
+}

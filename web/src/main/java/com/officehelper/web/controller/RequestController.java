@@ -61,10 +61,14 @@ public class RequestController {
 
     @RequestMapping(value = "/request/add", method = RequestMethod.POST)
     @ResponseBody
-    public ValidationResponse addRequest(@Valid @ModelAttribute AuthorDTO author, @Valid @ModelAttribute RequestDTO request, BindingResult bindingResult, Model model) {
+    public ValidationResponse addRequest(@Valid @ModelAttribute AuthorDTO author, BindingResult authorResult,
+                                         @Valid @ModelAttribute RequestDTO request, BindingResult requestResult) {
         ValidationResponse response = new ValidationResponse();
-        if(bindingResult.hasErrors()) {
-            response.setErrorMessageList(bindingResult.getAllErrors());
+        if(authorResult.hasErrors()) {
+            response.setErrorMessageList(authorResult.getAllErrors());
+        }
+        else if(requestResult.hasErrors()) {
+            response.setErrorMessageList(requestResult.getAllErrors());
         }
         else {
             request.setAuthor(author);

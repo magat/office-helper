@@ -80,21 +80,22 @@
                 <tr>
                     <td class="date-now">Just now</td>
                     <td>
-                        <div id="deadlinepicker" class="input-group date">
+                        <div id="deadlinepicker" class="input-group date form-group">
                             <input type="text" class="form-control" id="deadline" placeholder="Deadline" th:object="${request}" th:field="*{dateDeadline}">
                                 <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-calendar"></span>
                                 </span>
                         </div>
                     </td>
-                    <td><input class="form-control" type="text" placeholder="Product*" th:object="${request}" th:field="*{title}" required></td>
-                    <td><input class="form-control" type="number" placeholder="Qty." th:object="${request}" th:field="*{quantity}"></td>
-                    <td><input class="form-control" type="text" placeholder="Your name*" th:object="${author}" th:field="*{firstName}" required></td>
+                    <td class="form-group"><input class="form-control" type="text" placeholder="Product*" th:object="${request}" th:field="*{title}" required></td>
+                    <td class="form-group"><input class="form-control" type="number" placeholder="Qty." th:object="${request}" th:field="*{quantity}"></td>
+                    <td class="form-group"><input class="form-control" type="text" placeholder="Your name*" th:object="${author}" th:field="*{firstName}" required></td>
                     <td><input class="btn btn-success" type="submit"></td>
                 </tr>
                 <tr>
-                    <td colspan="6">
-                        <p><a href="#" id="more_information"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Additional information ...</a></p>
+                    <td style="border-top:none;"></td>
+                    <td colspan="4" style="border-top:none; padding-top:0px; margin-top:0px;">
+                        <!--<p><a href="#" id="more_information"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Additional information ...</a></p>-->
                         <div id="more_information_form">
                             <div class="form-group">
                                 <label for="url">Url</label>

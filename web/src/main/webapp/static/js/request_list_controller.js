@@ -107,6 +107,30 @@ $(".revert_workflow").click(function () {
     });
 })
 
+function displayErrors(errors) {
+    for (var i = 0; i < errors.length; i++) { //List errors
+        var field = errors[i].field;
+        var element = $('input[name=' + field + ']');
+        var tooltipOptions = {
+            title: errors[i].defaultMessage,
+            delay: {"show": 500, "hide": 100}
+        };
+
+        //Display the error tooltips
+        element.tooltip(tooltipOptions);
+        element.tooltip('show');
+
+        //Add red border
+        var formGroup = element.closest(".form-group");
+        formGroup.addClass("has-error");
+    }
+}
+
+function eraseErrors() {
+    $(".has-error").removeClass("has-error");
+    $("input").tooltip("destroy");
+}
+
 $('form[id=sendRequest]').submit(function () {
     var form = $(this);
     var data = form.serialize();
@@ -116,33 +140,23 @@ $('form[id=sendRequest]').submit(function () {
         data: data,
         success: function (response) {
             if (response.status != "SUCCESS") {
-
-                var errors = response.errorMessageList;
-                for (var i = 0; i < errors.length; i++) { //List errors
-                    var field = errors[i].field;
-                    var element = $('input[name=' + field + ']');
-                    var tooltipOptions = {
-                        title: errors[i].defaultMessage,
-                        delay: {"show": 500, "hide": 100}
-                    };
-
-                    //Display the error tooltips
-                    element.tooltip(tooltipOptions);
-                    element.tooltip('show');
-                }
+                displayErrors(response.errorMessageList);
             }
             else {
                 var content = "";
 
                 //Format deadline display
                 var deadline = $('input[name=dateDeadline]').val();
-                deadline = upperCaseFirstLetter(moment(deadline, "DD/MM/YYYY").format("dddd D MMMM YYYY"));
+                deadline = upperCaseFirstLetter(moment(deadline, "DD/MM/YYYY").format("MMM D, YYYY"));
+                if(deadline == "Invalid date") {
+                    deadline = "";
+                }
 
                 //Generate a new row
                 content = content.concat("<tr class='hover_container'>");
 
                 //Current date
-                content = content.concat("<td>" + upperCaseFirstLetter(moment().format("dddd D MMMM YYYY")) + "</td>");
+                content = content.concat("<td>" + upperCaseFirstLetter(moment().format("MMM D, YYYY")) + "</td>");
 
                 //Deadline
                 content = content.concat("<td>" + deadline + "</td>");
@@ -168,7 +182,6 @@ $('form[id=sendRequest]').submit(function () {
                 //Disabled controls
                 content = content.concat("<td class='hidden_element'>");
                 content = content.concat("<span class='glyphicon glyphicon-ok text-muted' aria-hidden='true'></span> ");
-                content = content.concat("<span class='glyphicon glyphicon-ban-circle text-muted' aria-hidden='true'></span> ");
                 content = content.concat("<span class='glyphicon glyphicon-remove text-muted' aria-hidden='true'></span>");
                 content = content.concat("</td>");
                 content = content.concat("</tr>");
@@ -178,6 +191,12 @@ $('form[id=sendRequest]').submit(function () {
 
                 //Reset form
                 form.trigger("reset");
+
+                //Erase Red color and tooltips on fields
+                eraseErrors();
+
+                //Refresh Tootips
+                $('[data-toggle="tooltip"]').tooltip();
             }
         },
         error: function () {
@@ -190,8 +209,8 @@ $('form[id=sendRequest]').submit(function () {
 
 //Page init.
 $(function () {
-    moment.locale("fr"); //Locale for date
+    moment.locale("en"); //Locale for date
     $('[data-toggle="tooltip"]').tooltip(); //Init. Tooltips
-    $('#deadlinepicker').datetimepicker({ format:"D/MM/YYYY" }); //Init date format
-    $(".date-now").html(upperCaseFirstLetter(moment().format("dddd D MMMM YYYY"))); //Init "now" date
+    $('#deadlinepicker').datetimepicker({ format:"D/MM/YYYY", allowInputToggle:true }); //Init date format
+    $(".date-now").html(upperCaseFirstLetter(moment().format("MMM D, YYYY"))); //Init "now" date
 })

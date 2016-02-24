@@ -9,6 +9,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Objects;
 
 public class RequestDTO {
@@ -45,6 +46,7 @@ public class RequestDTO {
         this.dateCreated = new Date();
         this.author = new AuthorDTO();
         this.status = Status.NEW;
+        this.quantity = 1;
     }
 
     public RequestDTO(Request req) {
@@ -119,7 +121,7 @@ public class RequestDTO {
     }
 
     public String getDateOrderedToString() {
-        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL);
+        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DEFAULT, Locale.ENGLISH);
         if (dateOrdered != null) {
             String date = dateFormat.format(dateOrdered);
             return date.substring(0, 1).toUpperCase() + date.substring(1);
@@ -151,7 +153,7 @@ public class RequestDTO {
     public Date getDateReceived() { return dateReceived; }
 
     public String getDateReceivedToString() {
-        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL);
+        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DEFAULT, Locale.ENGLISH);
         if (dateReceived != null) {
             String date = dateFormat.format(dateReceived);
             return date.substring(0, 1).toUpperCase() + date.substring(1);
@@ -175,7 +177,7 @@ public class RequestDTO {
     }
 
     public String getDateCreatedToString() {
-        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL);
+        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DEFAULT, Locale.ENGLISH);
         if (dateCreated != null) {
             String date = dateFormat.format(dateCreated);
             return date.substring(0, 1).toUpperCase() + date.substring(1);
@@ -200,7 +202,7 @@ public class RequestDTO {
     }
 
     public String getDateDeadlineToString() {
-        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL);
+        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DEFAULT, Locale.ENGLISH);
         if (dateDeadline != null) {
             String date = dateFormat.format(dateDeadline);
             return date.substring(0, 1).toUpperCase() + date.substring(1);
