@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Home - Office Helper</title>
+    <title>Delivered orders - Office Helper</title>
     <meta charset="utf-8"/>
     <link th:href="@{/static/css/bootstrap.min.css}" href="../../static/css/bootstrap.min.css" rel="stylesheet">
     <link th:href="@{/static/css/office_helper_template.css}" href="../../static/css/office_helper_template.css"
@@ -24,7 +24,7 @@
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li><a href="#" th:href="@{/request/new}">New orders</a></li>
-                <li><a href="#" th:href="@{/request/ordered}">Ordered</a></li>
+                <li><a href="#" th:href="@{/request/ordered}">In progress</a></li>
                 <li class="active"><a href="#" th:href="@{/request/received}">Received</a></li>
                 <li><a href="#" th:href="@{/request/archived}">Archives</a></li>
             </ul>
@@ -73,8 +73,7 @@
 
                 <td>
                     <span class="hidden_element">
-                        <a href="#" class="revert_workflow"><span class="glyphicon glyphicon-backward" aria-hidden="true"></span></a>
-                        <a href="#" class="text-danger delete_request"><span class="glyphicon glyphicon-erase" aria-hidden="true"></span></a>
+                        <a href="#" class="revert_workflow"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></a>
                     </span>
                 </td>
             </tr>
