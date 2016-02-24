@@ -182,7 +182,7 @@ $('form[id=sendRequest]').submit(function () {
                 //Disabled controls
                 content = content.concat("<td class='hidden_element'>");
                 content = content.concat("<span class='glyphicon glyphicon-ok text-muted' aria-hidden='true'></span> ");
-                content = content.concat("<span class='glyphicon glyphicon-remove text-muted' aria-hidden='true'></span>");
+                content = content.concat("<span class='glyphicon glyphicon-ban-circle text-muted' aria-hidden='true'></span>");
                 content = content.concat("</td>");
                 content = content.concat("</tr>");
 
