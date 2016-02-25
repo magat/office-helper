@@ -6,36 +6,30 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBuilder;
 
 import javax.sql.DataSource;
+import java.io.IOException;
 
 @Configuration
 @ComponentScan(basePackages = "com.officehelper.dao")
-@PropertySource("classpath:/db.properties")
 public class DataConfig {
 
-    @Value("${db.username}")
-    private String dbusername;
-
-    @Value("${db.pswd}")
-    private String dbpswd;
-
-    @Value("${db.driver}")
-    private String dbdriver;
-
-    @Value("${db.url}")
-    private String dburl;
-
-    @Bean //Necessary for Spring to parse ${} of properties
-    public static PropertySourcesPlaceholderConfigurer propertyConfigIn() {
-        return new PropertySourcesPlaceholderConfigurer();
+    @Bean
+    public static PropertySourcesPlaceholderConfigurer placeHolderConfigurer() throws IOException {
+        PropertySourcesPlaceholderConfigurer propertyConfigurer = new PropertySourcesPlaceholderConfigurer();
+        propertyConfigurer.setLocations(new PathMatchingResourcePatternResolver().getResources("classpath*:/**/db.properties"));
+        return propertyConfigurer;
     }
 
     @Bean(name = "dataSource")
-    public DataSource dataSource() {
+    public DataSource dataSource(
+            @Value("${db.username}") String dbusername,
+            @Value("${db.pswd}") String dbpswd,
+            @Value("${db.driver}") String dbdriver,
+            @Value("${db.url}") String dburl) {
         BasicDataSource dataSource = new BasicDataSource();
         dataSource.setDriverClassName(dbdriver);
         dataSource.setUrl(dburl);

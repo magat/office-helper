@@ -50,7 +50,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="request : ${requestList}" th:attr="data-id=${request.id}" class="request hover_container">
+                <tr th:each="request : ${requestList}" th:attr="data-id=${request.id}" th:classappend="${request.getEmergencyClass()}" class="request hover_container">
                     <td th:text="${request.getDateCreatedToString()}"></td>
 
                     <td th:text="${request.getDateDeadlineToString()}"></td>

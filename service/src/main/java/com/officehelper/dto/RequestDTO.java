@@ -214,6 +214,31 @@ public class RequestDTO {
         this.dateDeadline = dateDeadline;
     }
 
+    public String getEmergencyClass() {
+        String emergency = "";
+        long comparisonTime = new Date().getTime();
+        long sevenDays = 1000*60*60*24*7;
+
+        if(dateReceived != null) {
+            comparisonTime = dateReceived.getTime();
+        }
+
+        if(dateDeadline != null) {
+            long deadlineTime = dateDeadline.getTime();
+            if(comparisonTime >= deadlineTime) {
+                emergency = "danger";
+            }
+            else if(deadlineTime - comparisonTime <= sevenDays) {
+                emergency = "danger";
+            }
+            else if(deadlineTime - comparisonTime <= sevenDays * 2) {
+                emergency = "warning";
+            }
+        }
+
+        return emergency;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
