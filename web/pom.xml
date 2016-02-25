@@ -38,14 +38,6 @@
             <groupId>org.thymeleaf</groupId>
             <artifactId>thymeleaf-spring4</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.attoparser</groupId>
-            <artifactId>attoparser</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.unbescape</groupId>
-            <artifactId>unbescape</artifactId>
-        </dependency>
     </dependencies>
 
 </project>

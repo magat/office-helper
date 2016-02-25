@@ -177,18 +177,6 @@
                 <artifactId>thymeleaf-spring4</artifactId>
                 <version>${thymeleaf.version}</version>
             </dependency>
-            <!-- XML PARSER - Needed for Thymeleaf -->
-            <dependency>
-                <groupId>org.attoparser</groupId>
-                <artifactId>attoparser</artifactId>
-                <version>${attoparser.version}</version>
-            </dependency>
-            <!-- Escape&Unescape HTML - Needed for Thymeleaf -->
-            <dependency>
-                <groupId>org.unbescape</groupId>
-                <artifactId>unbescape</artifactId>
-                <version>${unbescape.version}</version>
-            </dependency>
             <!-- Bean validation to prevent bad user input -->
             <dependency>
                 <groupId>org.hibernate</groupId>
