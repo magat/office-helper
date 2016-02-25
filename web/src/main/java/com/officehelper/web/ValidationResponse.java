@@ -5,6 +5,7 @@ import java.util.List;
 public class ValidationResponse {
     private String status;
     private List errorMessageList;
+    private Object body;
 
     public ValidationResponse() {
         this.status = "SUCCESS";
@@ -29,5 +30,13 @@ public class ValidationResponse {
             }
         }
         this.errorMessageList = errorMessageList;
+    }
+
+    public Object getBody() {
+        return body;
+    }
+
+    public void setBody(Object body) {
+        this.body = body;
     }
 }

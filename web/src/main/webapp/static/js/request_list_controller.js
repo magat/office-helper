@@ -2,110 +2,122 @@ function upperCaseFirstLetter(s) {
     return s.charAt(0).toUpperCase() + s.substring(1);
 }
 
-//Animation to hide/display 'more_information' form
-$("#more_information").click(function () {
-    if ($("#more_information_form").is(":hidden")) {
-        $("#more_information_form").slideDown("slow");
-        $("#more_information").html("<span class='glyphicon glyphicon-remove' aria-hidden='true'></span> Additional information ...");
-    } else {
-        $("#more_information_form").slideUp("slow");
-        $("#more_information").html("<span class='glyphicon glyphicon-plus' aria-hidden='true'></span> Additional information ...");
-    }
-});
+function getRequestObject(element) {
+    return element.closest(".request");
+}
 
-$(".delete_request").click(function () {
-    var request = $(this).closest(".request");
-    var id = request.attr("data-id");
-    var url = id + "/delete";
+function getElementId(element) {
+    var request = element.closest(".request");
+    return request.attr("data-id");
+}
+
+function deleteRequest(element) {
+    var url = getElementId(element) + "/delete";
     var confirmation = confirm("Do you really want to erase this order ?");
-    if(confirmation) {
+    if (confirmation) {
         $.ajax({
             type: "GET",
             url: url,
+            dataType: 'json',
             success: function (response) {
                 if (response.status != "SUCCESS") {
                     alert("Error : The order couldn't be deleted.");
                 }
                 else {
-                    request.remove();
+                    getRequestObject(element).remove();
                 }
             },
             error: function () {
                 alert("An unexpected error occurred. Please contact an administrator.");
-            },
-            dataType: 'json'
+            }
         });
     }
-})
+}
 
-$(".refuse_request").click(function () {
-    var request = $(this).closest(".request");
-    var id = request.attr("data-id");
-    var url = id + "/refuse";
+function refuseRequest(element) {
+    var url = getElementId(element) + "/refuse";
     var confirmation = confirm("Do you really want to refuse this order ?");
-    if(confirmation) {
+    if (confirmation) {
         $.ajax({
             type: "GET",
             url: url,
+            dataType: 'json',
             success: function (response) {
                 if (response.status != "SUCCESS") {
                     alert("Error : The order couldn't be aborted.");
                 }
                 else {
-                    request.remove();
+                    getRequestObject(element).remove();
                 }
             },
             error: function () {
                 alert("An unexpected error occurred. Please contact an administrator.");
-            },
-            dataType: 'json'
+            }
         });
     }
-})
+}
 
-$(".proceed_workflow").click(function () {
-    var request = $(this).closest(".request");
-    var id = request.attr("data-id");
-    var url = id + "/proceed_workflow";
+function proceedWorkflow(element) {
+    var url = getElementId(element) + "/proceed_workflow";
     $.ajax({
         type: "GET",
         url: url,
+        dataType: 'json',
         success: function (response) {
             if (response.status != "SUCCESS") {
                 alert("Error : Failed to update request status");
             }
             else {
-                request.remove();
+                getRequestObject(element).remove();
             }
         },
         error: function () {
             alert("An unexpected error occurred. Please contact an administrator.");
-        },
-        dataType: 'json'
+        }
     });
-})
+}
 
-$(".revert_workflow").click(function () {
-    var request = $(this).closest(".request");
-    var id = request.attr("data-id");
-    var url = id + "/revert_workflow";
+function revertWorkflow(element) {
+    var url = getElementId(element) + "/revert_workflow";
     $.ajax({
         type: "GET",
         url: url,
+        dataType: 'json',
         success: function (response) {
             if (response.status != "SUCCESS") {
                 alert("Error : Failed to update request status");
             }
             else {
-                request.remove();
+                getRequestObject(element).remove();
             }
         },
         error: function () {
             alert("An unexpected error occurred. Please contact an administrator.");
-        },
-        dataType: 'json'
+        }
     });
-})
+}
+
+function refreshControls() {
+    $(".delete_request").click(function () {
+        deleteRequest($(this));
+        return false;
+    });
+
+    $(".refuse_request").click(function () {
+        refuseRequest($(this));
+        return false;
+    })
+
+    $(".proceed_workflow").click(function () {
+        proceedWorkflow($(this));
+        return false;
+    })
+
+    $(".revert_workflow").click(function () {
+        revertWorkflow($(this));
+        return false;
+    })
+}
 
 function displayErrors(errors) {
     for (var i = 0; i < errors.length; i++) { //List errors
@@ -148,12 +160,12 @@ $('form[id=sendRequest]').submit(function () {
                 //Format deadline display
                 var deadline = $('input[name=dateDeadline]').val();
                 deadline = upperCaseFirstLetter(moment(deadline, "DD/MM/YYYY").format("MMM D, YYYY"));
-                if(deadline == "Invalid date") {
+                if (deadline == "Invalid date") {
                     deadline = "";
                 }
 
                 //Generate a new row
-                content = content.concat("<tr class='hover_container'>");
+                content = content.concat("<tr class='request hover_container' data-id='" + response.body + "'>");
 
                 //Current date
                 content = content.concat("<td>" + upperCaseFirstLetter(moment().format("MMM D, YYYY")) + "</td>");
@@ -181,8 +193,8 @@ $('form[id=sendRequest]').submit(function () {
 
                 //Disabled controls
                 content = content.concat("<td class='hidden_element'>");
-                content = content.concat("<span class='glyphicon glyphicon-ok text-muted' aria-hidden='true'></span> ");
-                content = content.concat("<span class='glyphicon glyphicon-ban-circle text-muted' aria-hidden='true'></span>");
+                content = content.concat("<a href='#' class='proceed_workflow'><span class='glyphicon glyphicon-ok' aria-hidden='true'></span></a> ");
+                content = content.concat("<a href='#' class='text-danger refuse_request'><span class='glyphicon glyphicon-ban-circle' aria-hidden='true'></span></a>");
                 content = content.concat("</td>");
                 content = content.concat("</tr>");
 
@@ -197,6 +209,9 @@ $('form[id=sendRequest]').submit(function () {
 
                 //Refresh Tootips
                 $('[data-toggle="tooltip"]').tooltip();
+
+                //Refresh buttons
+                refreshControls();
             }
         },
         error: function () {
@@ -210,7 +225,12 @@ $('form[id=sendRequest]').submit(function () {
 //Page init.
 $(function () {
     moment.locale("en"); //Locale for date
+
     $('[data-toggle="tooltip"]').tooltip(); //Init. Tooltips
-    $('#deadlinepicker').datetimepicker({ format:"D/MM/YYYY", allowInputToggle:true }); //Init date format
+
+    $('#deadlinepicker').datetimepicker({format: "D/MM/YYYY", allowInputToggle: true}); //Init date format
+
     $(".date-now").html(upperCaseFirstLetter(moment().format("MMM D, YYYY"))); //Init "now" date
-})
+
+    refreshControls();
+});

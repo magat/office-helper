@@ -72,7 +72,7 @@ public class RequestController {
         }
         else {
             request.setAuthor(author);
-            reqService.addRequest(request);
+            response.setBody(reqService.addRequest(request));
         }
         return response;
     }
