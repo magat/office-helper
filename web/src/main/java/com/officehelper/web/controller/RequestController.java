@@ -81,9 +81,7 @@ public class RequestController {
     @ResponseBody
     public ValidationResponse deleteRequest(@PathVariable long id) {
         ValidationResponse response = new ValidationResponse();
-        if(!reqService.deleteRequest(id)) {
-            response.setStatus("FAIL");
-        }
+        reqService.deleteRequest(id);
         return response;
     }
 

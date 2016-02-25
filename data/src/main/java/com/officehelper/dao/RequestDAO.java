@@ -78,6 +78,11 @@ public class RequestDAO {
         return (requestDeleted != 0); // int -> bool
     }
 
+    public void deleteRequest(Request req) {
+        Session hibernateSession = sessionFactory.getCurrentSession();
+        hibernateSession.delete(req);
+    }
+
     public boolean updateStatus(long id, Status status) {
         Session hibernateSession = sessionFactory.getCurrentSession();
         Request r = hibernateSession.get(Request.class, id);

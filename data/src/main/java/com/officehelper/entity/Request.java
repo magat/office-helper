@@ -1,11 +1,6 @@
 package com.officehelper.entity;
 
-import org.hibernate.annotations.*;
-import org.hibernate.annotations.CascadeType;
-
 import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.util.Date;
 
 @Entity
@@ -39,8 +34,11 @@ public class Request {
     @Column(name = "date_deadline")
     private Date dateDeadline;
 
+    /*
     @ManyToOne
     @Cascade({CascadeType.PERSIST, CascadeType.SAVE_UPDATE})
+    */
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "author", nullable = false)
     private Author author;
 

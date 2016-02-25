@@ -17,6 +17,8 @@ import java.util.List;
 import static junit.framework.TestCase.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
@@ -85,14 +87,16 @@ public class RequestServiceTest {
 
     @Test
     public void testDeleteRequest_when_id_incorrect() {
-        when(mockedRequestDAO.deleteRequest(10L)).thenReturn(false);
-        assertFalse(requestService.deleteRequest(10L));
+        requestService.deleteRequest(10L);
+        verify(mockedRequestDAO, never()).deleteRequest(any(Request.class));
     }
 
     @Test
     public void testDeleteRequest_when_id_correct() {
-        when(mockedRequestDAO.deleteRequest(10L)).thenReturn(true);
-        assertTrue(requestService.deleteRequest(10L));
+        Request request = new Request();
+        when(mockedRequestDAO.getRequest(10L)).thenReturn(request);
+        requestService.deleteRequest(10L);
+        verify(mockedRequestDAO).deleteRequest(request);
     }
 
     @Test

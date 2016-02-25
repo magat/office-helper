@@ -106,7 +106,10 @@ public class RequestService {
     }
 
     @Transactional
-    public boolean deleteRequest(long id) {
-        return requestDAO.deleteRequest(id);
+    public void deleteRequest(long id) {
+        Request request = requestDAO.getRequest(id);
+        if(request != null) {
+            requestDAO.deleteRequest(request);
+        }
     }
 }
