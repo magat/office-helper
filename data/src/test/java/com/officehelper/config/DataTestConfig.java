@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 
 import javax.sql.DataSource;
@@ -15,20 +15,14 @@ import java.io.IOException;
 
 @Configuration
 @Import(DataConfig.class)
-@PropertySource("classpath:/db.test.properties")
 public class DataTestConfig {
 
-    @Value("${db.test.username}")
-    private String dbusername;
-
-    @Value("${db.test.pswd}")
-    private String dbpswd;
-
-    @Value("${db.test.driver}")
-    private String dbdriver;
-
-    @Value("${db.test.url}")
-    private String dburl;
+    @Bean
+    public static PropertySourcesPlaceholderConfigurer placeHolderConfigurer() throws IOException {
+        PropertySourcesPlaceholderConfigurer propertyConfigurer = new PropertySourcesPlaceholderConfigurer();
+        propertyConfigurer.setLocations(new PathMatchingResourcePatternResolver().getResources("classpath*:/**/db.test.properties"));
+        return propertyConfigurer;
+    }
 
     @Bean //Necessary for Spring to parse ${} of properties
     public static PropertySourcesPlaceholderConfigurer propertyConfigIn() {
@@ -36,7 +30,10 @@ public class DataTestConfig {
     }
 
     @Bean(name = "dataSource")
-    public DataSource dataSource() {
+    public DataSource dataSource(@Value("${db.username}") String dbusername,
+                                 @Value("${db.pswd}") String dbpswd,
+                                 @Value("${db.driver}") String dbdriver,
+                                 @Value("${db.url}") String dburl) {
         BasicDataSource dataSource = new BasicDataSource();
         dataSource.setDriverClassName(dbdriver);
         dataSource.setUrl(dburl);

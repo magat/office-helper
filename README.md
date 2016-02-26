@@ -1,28 +1,20 @@
-# What is Office Helper ?
+# Office Helper
+
+## What is Office Helper ?
  
-...  
+Office helper is a tool which aims to assist people ordering products.
+ 
+## Requirements
 
-# Installation
+- Java 1.8
+- PostgreSQL 9.4
+- Apache Tomcat 8.0.30 
+- Apache Maven 3.3.9
 
-In order to launch the application, you need to :
+## Installation
 
-- Add db.properties in 'data/src/main/resources/db.properties'
-```
-db.username=User
-db.pswd=pwd
-db.url=jdbc:postgresql://localhost:5432/<YOUR_DB_NAME>
-db.driver=org.postgresql.Driver
-```
+### Create database
 
-- Add db.test.properties in 'data/src/test/resources/db.test.properties' with the same structure :
-```
-db.test.username=User
-db.test.pswd=pwd
-db.test.url=jdbc:postgresql://localhost:5432/<YOUR_TEST_DB_NAME>
-db.test.driver=org.postgresql.Driver
-```
-
-- The DB should match the following structure :
 ```
 CREATE TABLE author (
   id BIGSERIAL NOT NULL,
@@ -49,3 +41,10 @@ CREATE TABLE request (
 
 ALTER TABLE request ADD CONSTRAINT request_id_pkey PRIMARY KEY(id);
 ```
+
+### Configure database access
+
+- Edit `db.sample.properties` in *data/src/main/resources/*
+- Rename `db.sample.properties` to `db.properties` 
+- Edit `db.test.sample.properties` in *data/src/test/resources/*
+- Rename `db.test.sample.properties` to `db.test.properties`
