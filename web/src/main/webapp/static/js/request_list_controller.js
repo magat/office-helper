@@ -98,25 +98,10 @@ function revertWorkflow(element) {
 }
 
 function refreshControls() {
-    $(".delete_request").click(function () {
-        deleteRequest($(this));
-        return false;
-    });
-
-    $(".refuse_request").click(function () {
-        refuseRequest($(this));
-        return false;
-    })
-
-    $(".proceed_workflow").click(function () {
-        proceedWorkflow($(this));
-        return false;
-    })
-
-    $(".revert_workflow").click(function () {
-        revertWorkflow($(this));
-        return false;
-    })
+    $(".table-request").on('click', ".delete_request", function(){deleteRequest($(this)); return false;});
+    $(".table-request").on('click', ".refuse_request", function(){refuseRequest($(this)); return false;});
+    $(".table-request").on('click', ".proceed_workflow", function(){proceedWorkflow($(this)); return false;});
+    $(".table-request").on('click', ".revert_workflow", function(){revertWorkflow($(this)); return false;});
 }
 
 function displayErrors(errors) {
@@ -192,9 +177,11 @@ $('form[id=sendRequest]').submit(function () {
                 content = content.concat("<td>" + $('input[name=firstName]').val() + "</td>");
 
                 //Disabled controls
-                content = content.concat("<td class='hidden_element'>");
+                content = content.concat("<td>");
+                content = content.concat("<span class='hidden_element'>");
                 content = content.concat("<a href='#' class='proceed_workflow'><span class='glyphicon glyphicon-ok' aria-hidden='true'></span></a> ");
                 content = content.concat("<a href='#' class='text-danger refuse_request'><span class='glyphicon glyphicon-ban-circle' aria-hidden='true'></span></a>");
+                content = content.concat("</span>");
                 content = content.concat("</td>");
                 content = content.concat("</tr>");
 
@@ -209,9 +196,6 @@ $('form[id=sendRequest]').submit(function () {
 
                 //Refresh Tootips
                 $('[data-toggle="tooltip"]').tooltip();
-
-                //Refresh buttons
-                refreshControls();
             }
         },
         error: function () {
@@ -225,12 +209,8 @@ $('form[id=sendRequest]').submit(function () {
 //Page init.
 $(function () {
     moment.locale("en"); //Locale for date
-
     $('[data-toggle="tooltip"]').tooltip(); //Init. Tooltips
-
     $('#deadlinepicker').datetimepicker({format: "D/MM/YYYY", allowInputToggle: true}); //Init date format
-
     $(".date-now").html(upperCaseFirstLetter(moment().format("MMM D, YYYY"))); //Init "now" date
-
     refreshControls();
 });
