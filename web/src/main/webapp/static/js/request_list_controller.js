@@ -97,11 +97,23 @@ function revertWorkflow(element) {
     });
 }
 
-function refreshControls() {
-    $(".table-request").on('click', ".delete_request", function(){deleteRequest($(this)); return false;});
-    $(".table-request").on('click', ".refuse_request", function(){refuseRequest($(this)); return false;});
-    $(".table-request").on('click', ".proceed_workflow", function(){proceedWorkflow($(this)); return false;});
-    $(".table-request").on('click', ".revert_workflow", function(){revertWorkflow($(this)); return false;});
+function initControls() {
+    $(".table-request").on('click', ".delete_request", function () {
+        deleteRequest($(this));
+        return false;
+    });
+    $(".table-request").on('click', ".refuse_request", function () {
+        refuseRequest($(this));
+        return false;
+    });
+    $(".table-request").on('click', ".proceed_workflow", function () {
+        proceedWorkflow($(this));
+        return false;
+    });
+    $(".table-request").on('click', ".revert_workflow", function () {
+        revertWorkflow($(this));
+        return false;
+    });
 }
 
 function displayErrors(errors) {
@@ -212,5 +224,5 @@ $(function () {
     $('[data-toggle="tooltip"]').tooltip(); //Init. Tooltips
     $('#deadlinepicker').datetimepicker({format: "D/MM/YYYY", allowInputToggle: true}); //Init date format
     $(".date-now").html(upperCaseFirstLetter(moment().format("MMM D, YYYY"))); //Init "now" date
-    refreshControls();
+    initControls();
 });
