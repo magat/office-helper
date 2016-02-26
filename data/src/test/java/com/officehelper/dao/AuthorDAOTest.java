@@ -3,6 +3,7 @@ package com.officehelper.dao;
 import com.officehelper.config.DataTestConfig;
 import com.officehelper.entity.Author;
 import com.officehelper.entity.Request;
+import com.officehelper.entity.Status;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.Before;
@@ -42,7 +43,7 @@ public class AuthorDAOTest {
         testingRequest.setComments("Testing Comment");
         testingRequest.setTitle("Testing Title");
         testingRequest.setUrl("http://www.test.com");
-        testingRequest.setStatus("Test Status");
+        testingRequest.setStatus(Status.NEW);
 
         session = sessionFactory.getCurrentSession();
     }
@@ -114,5 +115,7 @@ public class AuthorDAOTest {
         long id = (long) session.save(testingUser);
         assertNotNull(session.get(Author.class, id));
         assertTrue(authorDAO.deleteAuthor(id));
+        session.clear();
+        assertNull(session.get(Author.class, id));
     }
 }

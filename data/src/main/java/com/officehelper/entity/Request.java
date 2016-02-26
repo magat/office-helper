@@ -1,11 +1,6 @@
 package com.officehelper.entity;
 
-import org.hibernate.annotations.*;
-import org.hibernate.annotations.CascadeType;
-
 import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.util.Date;
 
 @Entity
@@ -21,17 +16,29 @@ public class Request {
 
     private String title;
 
+    private Integer quantity;
+
     private String url;
 
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     private String comments;
 
     @Column(name = "date_ordered")
     private Date dateOrdered;
 
+    @Column(name = "date_received")
+    private Date dateReceived;
+
+    @Column(name = "date_deadline")
+    private Date dateDeadline;
+
+    /*
     @ManyToOne
     @Cascade({CascadeType.PERSIST, CascadeType.SAVE_UPDATE})
+    */
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "author", nullable = false)
     private Author author;
 
@@ -67,11 +74,11 @@ public class Request {
         this.url = url;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
@@ -91,11 +98,35 @@ public class Request {
         this.dateOrdered = dateOrdered;
     }
 
+    public Date getDateReceived() {
+        return dateReceived;
+    }
+
+    public void setDateReceived(Date dateReceived) {
+        this.dateReceived = dateReceived;
+    }
+
     public Author getAuthor() {
         return author;
     }
 
     public void setAuthor(Author author) {
         this.author = author;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public Date getDateDeadline() {
+        return dateDeadline;
+    }
+
+    public void setDateDeadline(Date dateDeadline) {
+        this.dateDeadline = dateDeadline;
     }
 }

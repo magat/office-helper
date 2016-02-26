@@ -14,46 +14,13 @@ import javax.inject.Inject;
 import java.util.List;
 
 @Controller
-class IndexController {
+public class AuthorController {
 
     @Inject
     RequestService reqService;
 
     @Inject
     AuthorService authorService;
-
-    //TODO : TO REMOVE, FOR TESTING PURPOSES ONLY
-    @SuppressWarnings("SameReturnValue")
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    @ResponseBody
-    public List<RequestDTO> showIndex() {
-        return reqService.getRequestList();
-    }
-
-    //TODO : TO REMOVE, FOR TESTING PURPOSES ONLY
-    @RequestMapping(value = "/add", method = RequestMethod.GET)
-    @ResponseBody
-    public long addRandomStuff() {
-        RequestDTO newReq = new RequestDTO();
-        newReq.setUrl("http://Valeur-Ajoutée.com");
-        newReq.setTitle("Post-its");
-        newReq.setStatus("WAIT ...");
-        AuthorDTO author = new AuthorDTO();
-        newReq.setAuthor(author);
-        return reqService.addRequest(newReq);
-    }
-
-    @RequestMapping(value = "/request/{id}/delete", method = RequestMethod.GET)
-    @ResponseBody
-    public boolean deleteRequest(@PathVariable long id) {
-        return reqService.deleteRequest(id);
-    }
-
-    @RequestMapping(value = "/request/{id}", method = RequestMethod.GET)
-    @ResponseBody
-    public RequestDTO getRequest(@PathVariable long id) {
-        return reqService.getRequest(id);
-    }
 
     @RequestMapping(value = "/author/{id}/requests", method = RequestMethod.GET)
     @ResponseBody
@@ -77,11 +44,5 @@ class IndexController {
     @ResponseBody
     public List<AuthorDTO> getAuthorList() {
         return authorService.getAuthorList();
-    }
-
-    @RequestMapping(value = "/request", method = RequestMethod.GET)
-    @ResponseBody
-    public List<RequestDTO> getRequestList() {
-        return reqService.getRequestList();
     }
 }

@@ -16,6 +16,9 @@ import java.util.List;
 
 import static junit.framework.TestCase.*;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyLong;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
@@ -30,6 +33,33 @@ public class RequestServiceTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
+    }
+
+    public Request generateRequest() {
+        Request generatedReq = new Request();
+        generatedReq.setDateCreated(new Date(0));
+        generatedReq.setAuthor(new Author());
+        return generatedReq;
+    }
+
+    public List<Request> generateRequestList(int size) {
+        List<Request> requestList = new ArrayList<>();
+        for (int i = 0; i < size; i++) {
+            requestList.add(generateRequest());
+        }
+        return requestList;
+    }
+
+    public RequestDTO generateRequestDTO() {
+        return new RequestDTO(generateRequest());
+    }
+
+    public List<RequestDTO> generateRequestDTOList(int size) {
+        List<RequestDTO> requestList = new ArrayList<>();
+        for (int i = 0; i < size; i++) {
+            requestList.add(generateRequestDTO());
+        }
+        return requestList;
     }
 
     @Test
@@ -57,14 +87,16 @@ public class RequestServiceTest {
 
     @Test
     public void testDeleteRequest_when_id_incorrect() {
-        when(mockedRequestDAO.deleteRequest(10L)).thenReturn(false);
-        assertFalse(requestService.deleteRequest(10L));
+        requestService.deleteRequest(10L);
+        verify(mockedRequestDAO, never()).deleteRequest(any(Request.class));
     }
 
     @Test
     public void testDeleteRequest_when_id_correct() {
-        when(mockedRequestDAO.deleteRequest(10L)).thenReturn(true);
-        assertTrue(requestService.deleteRequest(10L));
+        Request request = new Request();
+        when(mockedRequestDAO.getRequest(10L)).thenReturn(request);
+        requestService.deleteRequest(10L);
+        verify(mockedRequestDAO).deleteRequest(request);
     }
 
     @Test
@@ -100,4 +132,63 @@ public class RequestServiceTest {
         assertEquals(requestService.getRequestList(), new ArrayList<RequestDTO>());
     }
 
+    @Test
+    public void testGetNewRequests_when_entries_found() {
+        when(mockedRequestDAO.getNewRequests()).thenReturn(generateRequestList(5));
+        assertEquals(requestService.getNewRequests(), generateRequestDTOList(5));
+    }
+
+    @Test
+    public void testGetNewRequests_when_no_entries_found() {
+        when(mockedRequestDAO.getNewRequests()).thenReturn(new ArrayList<Request>());
+        assertEquals(requestService.getNewRequests(), new ArrayList<RequestDTO>());
+    }
+
+    @Test
+    public void testGetOrderedRequests_when_entries_found() {
+        when(mockedRequestDAO.getOrderedRequests()).thenReturn(generateRequestList(5));
+        assertEquals(requestService.getOrderedRequests(), generateRequestDTOList(5));
+    }
+
+    @Test
+    public void testGetOrderedRequests_when_no_entries_found() {
+        when(mockedRequestDAO.getOrderedRequests()).thenReturn(new ArrayList<Request>());
+        assertEquals(requestService.getOrderedRequests(), new ArrayList<RequestDTO>());
+    }
+
+    @Test
+    public void testGetReceivedRequests_when_entries_found() {
+        when(mockedRequestDAO.getReceivedRequests()).thenReturn(generateRequestList(5));
+        assertEquals(requestService.getReceivedRequests(), generateRequestDTOList(5));
+    }
+
+    @Test
+    public void testGetReceivedRequests_when_no_entries_found() {
+        when(mockedRequestDAO.getReceivedRequests()).thenReturn(new ArrayList<Request>());
+        assertEquals(requestService.getReceivedRequests(), new ArrayList<RequestDTO>());
+    }
+
+    @Test
+    public void testGetArchivedRequests_when_entries_found() {
+        when(mockedRequestDAO.getArchivedRequests()).thenReturn(generateRequestList(5));
+        assertEquals(requestService.getArchivedRequests(), generateRequestDTOList(5));
+    }
+
+    @Test
+    public void testGetArchivedRequests_when_no_entries_found() {
+        when(mockedRequestDAO.getArchivedRequests()).thenReturn(new ArrayList<Request>());
+        assertEquals(requestService.getArchivedRequests(), new ArrayList<RequestDTO>());
+    }
+
+    @Test
+    public void testRefuseRequest_when_request_exists() {
+        when(mockedRequestDAO.updateStatus(anyLong(), any())).thenReturn(true);
+        assertTrue(requestService.refuseRequest(5));
+    }
+
+    @Test
+    public void testRefuseRequest_when_request_does_not_exist() {
+        when(mockedRequestDAO.updateStatus(anyLong(), any())).thenReturn(false);
+        assertFalse(requestService.refuseRequest(5));
+    }
 }
